@@ -1,0 +1,646 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                                           %%%
+%%% WARNING! WORKING WITH --shell-escape only %%%
+%%%                                           %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{vfinish}[2022/02/05 Package vfinish]
+
+\hypersetup{
+    hidelinks = true
+}
+
+\makeatletter
+
+\newboolean{@final}
+\setboolean{@final}{false}
+\newboolean{@vak}
+\setboolean{@vak}{false}
+
+\DeclareOption{final}{\setboolean{@final}{true}}
+\DeclareOption{vak}{\setboolean{@vak}{true}}
+
+\ProcessOptions\relax
+
+\RequirePackage{pdfpages}
+\RequirePackage{calculator}
+\RequirePackage{numprint}
+\RequirePackage{refcount}
+\RequirePackage[utf8]{datatool}
+%\RequirePackage[a-1b]{pdfx}
+\usepackage{expl3}
+\usepackage{shellesc}
+
+\DTLifdbexists{ppr}{\DTLcleardb{ppr}}{\DTLnewdb{ppr}}%
+
+\def\myjobname{\string_vestnik\YEAR-\ISSUE}
+\newoutputstream{mainref}
+\openoutputfile{\jobname.ref}{mainref}
+\addtostream{mainref}{\string\gdef\string\YEAR\string{\YEAR\string}}
+\addtostream{mainref}{\string\gdef\string\VOLUME\string{\VOLUME\string}}
+\addtostream{mainref}{\string\gdef\string\ISSUE\string{\ISSUE\string}}
+\addtostream{mainref}{\string\gdef\string\PRESSDATE\string{\PRESSDATE\string}}
+\ifdefined\PART
+	\addtostream{mainref}{\string\gdef\PART\string{\PART\string}}
+\fi
+\closeoutputstream{mainref}
+
+%\newcounter{lastpage}%
+%\setcounter{lastpagenumber}{\getrefbykeydefault{LastPage}{page}{1}}%
+
+\newcounter{article@counter}
+\setcounter{article@counter}{0}
+\newcommand\adda[1]{
+	\stepcounter{article@counter}
+	\expandafter\gdef\csname @articlename\arabic{article@counter}\endcsname{#1}
+}
+
+\def\runtexloop{
+    \newcount\i
+    \i=1
+    \loop
+    	\begingroup
+    	\ifthenelse{\boolean{@final}}
+			{\immediate\write18{pdflatex --jobname="\csname @articlename\the\i \endcsname"  
+      "\string\gdef\string\finishrun{1}\string\input\space\csname @articlename\the\i \endcsname"}}
+      		{\immediate\write18{pdflatex --jobname=\csname @articlename\the\i \endcsname\space\csname @articlename\the\i \endcsname}}
+		\endgroup
+    	\advance \i 1
+    \unless\ifnum\i>\value{article@counter}
+    \repeat
+}
+
+\newcommand\writepng{
+        \newcount\p
+        \p=1
+        \loop
+          \begingroup
+          	 \immediate\write18{gs -sDEVICE=png16m -dTextAlphaBits=4 -r326 -dDownScaleFactor=3 -o \@nameuse{@articlename\the\p}.png \@nameuse{@articlename\the\p}.pdf}
+          \endgroup
+          \advance \p 1
+        \unless\ifnum\p>\value{article@counter}
+        \repeat
+}
+
+\def\emptypageifodd{
+  \clearpage
+  \ifodd\value{page}
+      \thispagestyle{empty}%
+    \hbox{}\newpage
+  \fi
+}
+\def\emptyline{\par}
+
+%\ifx\conditionmacro\undefined
+%  \immediate\write18{%
+%    pdflatex --jobname="\myjobname"
+%    "\gdef\string\conditionmacro{1}\string\input\space\jobname"
+%  }%
+%  \expandafter\stop
+%\fi
+
+\newcommand\maketocru[1][1]{
+	\newpage
+	\newgeometry{top=2.5cm,bottom=2.5cm}
+	\thispagestyle{empty}
+	
+	\bgroup
+    	\bgroup
+    	\footnotesize
+    		Международный рецензируемый научно-образовательный и прикладной журнал\par
+    	\egroup
+    	\vspace{1ex}
+    	\bgroup
+    		\raggedright
+			\fontsize{10pt}{10pt}\selectfont
+			\bf ЭКОЛОГИЧЕСКИЙ ВЕСТНИК НАУЧНЫХ ЦЕНТРОВ \\[1mm] 
+    		ЧЕРНОМОРСКОГО ЭКОНОМИЧЕСКОГО СОТРУДНИЧЕСТВА (ЧЭС)\par
+    	\egroup
+    	\vspace{2ex}
+    	\bgroup
+        	\large\bf\YEAR
+        	\ifthenelse{\equal{\VOLUME}{}}{}
+    			{~\@mbullet~Том~\VOLUME}%
+        	~\@mbullet~\No\,\ISSUE%
+        	\ifdefined\PART
+        		~\@mbullet~Часть~\PART\par
+        	\fi
+    	\egroup
+	
+		\vfill
+		    	
+		\vskip 8ex minus 4ex
+    	
+    	\flushleft
+    	
+    	\bgroup
+    		\hskip -4pt \Huge\textit{Содержание}
+    	\egroup
+    	
+    	\bigskip
+    	
+		\renewcommand{\baselinestretch}{#1}\selectfont
+		
+		\newoutputstream{fulltoc}
+    	\openoutputfile{\jobname.toc}{fulltoc}
+		
+        \newcount\i
+        \i=1
+        \loop
+          \begingroup
+          	\includetocrus{\@nameuse{@articlename\the\i}}
+          \endgroup
+          \advance \i 1
+        \unless\ifnum\i>\value{article@counter}
+        \repeat
+        
+    	\closeoutputstream{fulltoc}
+    \egroup
+
+    \vspace{2ex}
+    Информация об авторах\dotfill\pageref{peoplelist}\par\vspace{1ex}
+	К сведению авторов\dotfill\pageref{guideruslabel}\par\vspace{1ex}
+	\@ifundefined{r@tocyear}{}{%
+		Содержание номеров за \YEAR\ год\dotfill\pageref{tocyear}\par}
+}
+
+\xdef\tmp{}%
+%\def\dotfill{\cleaders\hbox to 4pt{.} \hskip 20pt plus 1fill}
+
+\newcommand\includetocrus[1]{%
+	\openin1=#1.toc
+    \read1 to\line
+    \ifx\line\emptyline\else
+    \ifthenelse{\equal{\tmp}{}}
+    	{\xdef\tmp{\line}\bigskip
+			{\small\bf\textsf{\MakeUppercase{\line}}\par}}
+    	{\ifnum\pdf@strcmp{\tmp}{\line}=0
+			\else 
+			{\xdef\tmp{\line}\bigskip{\small\bf\textsf{\MakeUppercase{\line}}}\par}
+		\fi
+		}
+	\fi
+	\vspace{1ex}
+	\begingroup
+    	\read1 to\line
+		\ifx\line\emptyline\else
+			\begingroup
+				\advance\rightskip 6ex\advance\parfillskip -6ex 
+				\line\dotfill\pageref{#1}\par
+			\endgroup
+%		\let~\relax
+		\xdef\artname{\line}
+    	\read1 to\line
+    	\begingroup
+			\ifx\line\emptyline\else
+    			\raggedright\advance\leftskip 2ex\advance\rightskip 6ex\it\line\par
+				\addtostream{fulltoc}{\string\textit\@charlb\line\@charrb\newline}
+				\addtostream{fulltoc}{\expandafter\artname \string\dotfill\space №\ISSUE}
+				\addtostream{fulltoc}{}
+			\fi
+    	\endgroup
+    	\vspace{1ex}
+    \endgroup
+	\closein1
+}
+
+\newcommand\maketocen[1][1]{
+	\newpage
+	\newgeometry{top=2.5cm,bottom=2.5cm}
+	\thispagestyle{empty}
+	
+	\bgroup
+    	\bgroup
+    	\footnotesize
+    		International Peer-Reviewed Research, Educational and Applied Journal\par
+    	\egroup
+    	\vspace{1ex}
+    	\bgroup
+    		\raggedright
+			\fontsize{10pt}{10pt}\selectfont
+			\bf ECOLOGICAL BULLETIN OF RESEARCH CENTERS \\[1mm]
+    			OF THE BLACK SEA ECONOMIC COOPERATION (BSEC)\par
+    	\egroup
+    	\vspace{2ex}
+    	\bgroup
+        	\large\bf\YEAR
+        	\ifthenelse{\equal{\VOLUME}{}}{}
+    			{~\@mbullet~Volume~\VOLUME}%
+        	~\@mbullet~No.\,\ISSUE%
+        	\ifdefined\PART
+        		~\@mbullet~Part~\PART\par
+        	\fi
+    	\egroup
+
+		\vfill
+		
+		\vskip 8ex minus 4ex
+    	
+    	\flushleft
+	
+    	\bgroup
+    		\hskip -4pt \Huge\textit{Table of Contents}
+    	\egroup
+	
+    	\bigskip
+    	
+		\linespread{#1}
+		
+        \newcount\i
+        \i=1
+        \loop
+        	\bgroup
+    			\raggedright
+          		\includetoceng{\@nameuse{@articlename\the\i}}
+          	\egroup
+          \advance \i 1
+        \unless\ifnum\i>\value{article@counter}
+        \repeat
+    \egroup
+    \vspace{2ex}
+	Author's Information\dotfill\pageref{peoplelist}\par\vspace{1ex}
+	Author's Guide\dotfill\pageref{guideenglabel}\par\vspace{1ex}
+	\@ifundefined{r@tocyear}{}{%
+		The Contents of Issues for \YEAR\dotfill\pageref{tocyear}\par}
+	\restoregeometry
+}
+
+\newcommand\includetoceng[1]{%
+	\openin1=#1.toc
+	\read1 to\line
+    \read1 to\line
+    \read1 to\line
+    \read1 to\line
+    \ifx\line\emptyline\else
+    \ifthenelse{\equal{\tmp}{}}
+    	{\xdef\tmp{\line}\bigskip
+			{\small\bf\textsf{\MakeUppercase{\line}}\par}}
+    	{\ifnum\pdf@strcmp{\tmp}{\line}=0
+			\else 
+			{\xdef\tmp{\line}\bigskip{\small\bf\textsf{\MakeUppercase{\line}}}\par}
+		\fi
+		}
+	\fi
+	\vspace{1ex}
+    \bgroup
+    	\read1 to\line
+    	\ifx\line\emptyline\else
+			\begingroup
+				\advance\rightskip 6ex\advance\parfillskip -6ex 
+				\line\dotfill\pageref{#1}\par
+			\endgroup
+    	\read1 to\line
+		\def\lastline{\par}
+    	\begingroup
+			\ifx\line\emptyline\else
+    			\raggedright\advance\leftskip 2ex\advance\rightskip 6ex\it by \line\par
+			\fi
+    	\endgroup
+    	\vspace{1ex}
+    \egroup
+	\closein1
+}
+
+%\gdef\@@append#1{\immediate\write\mywrite{#1}}
+
+\newoutputstream{reffile}
+
+\newcommand\includepdfarticle[1]{
+	\label{#1}
+
+	\openoutputfile{#1.ref}{reffile}
+	\addtostream{reffile}{\string\def\string\FirstPage{\thepage}}
+	\closeoutputstream{reffile}
+	
+%	\newwrite\mywrite
+%	\newcount\mycount
+%	\immediate\openout\mywrite #1.append\relax
+%	\@@append{\string\gdef\string\FirstPage{\thepage}}
+%	\immediate\closeout\mywrite
+%	\VerbatimFile{#1.output}{%
+%    	\from{#1.aux}%
+%    	\from{#1.append}%
+%	}%
+%	\immediate\write18{rm #1.append}
+%	\immediate\write18{rm #1.aux}
+%	\immediate\write18{mv #1.output #1.aux}
+	\includepdf[pages=1-,noautoscale]{#1}
+}
+
+\newcommand\makepdfbody{
+    \newcount\i
+    \i=1
+    \loop
+      \includepdfarticle{\@nameuse{@articlename\the\i}}
+      \advance \i 1
+    \unless\ifnum\i>\value{article@counter}
+    \repeat
+}
+
+\newcounter{ppr@counter}
+\setcounter{ppr@counter}{0}
+
+\newcommand\addp[1]{
+	\stepcounter{ppr@counter}
+	\ErrorFreeDTLgetlocation{\RowIndex}{\ColIndex}{ppr}{#1}%
+	\ifx\RowIndex\@@dtlnovalue
+	\DTLnewrow{ppr}%
+	\DTLnewdbentry{ppr}{name}{#1}%
+    \expandafter\gdef\csname author\arabic{ppr@counter}\endcsname{#1}
+    \else\fi
+}
+\newcommand\addi[1]{
+	\ifcsname author\theppr@counter\endcsname
+    	\DTLnewdbentry{ppr}{info}{#1}%
+    	\expandafter\gdef\csname info\arabic{ppr@counter}\endcsname{#1}
+	\fi
+}
+
+%%% Werner's patch
+\usepackage{etoolbox}
+\makeatletter
+% Patch \DTLgetlocation to gobble the error
+\let\ErrorFreeDTLgetlocation\DTLgetlocation
+\patchcmd{\ErrorFreeDTLgetlocation}% <cmd>
+  {\PackageError}% <search>
+  {\@gobbletwo}% <replace>
+  {}{}% <success><failure>
+\def\@@dtlnovalue{\@dtlnovalue} 
+%%%
+
+\newcommand\makesortppl{%
+	\newpage
+	%\newgeometry{top=2.5cm,bottom=2.5cm}
+	\thispagestyle{firstof}
+	\pagestyle{fancyppl}
+	\label{peoplelist}
+	
+	\bgroup
+		\large\bf ИНФОРМАЦИЯ ОБ АВТОРАХ\par
+	\egroup
+
+%	\begin{center}
+%		\large\textbf{ИНФОРМАЦИЯ ОБ АВТОРАХ}\par
+%	\end{center}
+	
+	\vspace{4ex}
+	
+	\newcounter{i}
+    \newcounter{j}
+    \setcounter{i}{0}
+    \whiledo{\value{i}<\value{article@counter}}{%
+		\stepcounter{i}
+		\IfFileExists{\@nameuse{@articlename\thei}.ppr}{
+			\input{\@nameuse{@articlename\thei}.ppr}
+		}{}
+	}
+	
+	\dtlsort{name}{ppr}{\dtlicompare}
+
+	\begin{DTLenvforeach*}{ppr}{\name=name,\info=info}
+		\sloppy
+		\leftskip 2ex\parindent -2ex\parskip 1ex
+    	\name\info\par
+	\end{DTLenvforeach*}
+}
+
+\renewcommand*{\dtlsetUTFviiilccharcode}[2]{%
+	 \ifstrequal{#1}{А}{#2=123\relax}%
+	{\ifstrequal{#1}{Б}{#2=124\relax}%
+	{\ifstrequal{#1}{В}{#2=125\relax}%
+	{\ifstrequal{#1}{Г}{#2=126\relax}%
+	{\ifstrequal{#1}{Д}{#2=127\relax}%
+	{\ifstrequal{#1}{Е}{#2=128\relax}%
+	{\ifstrequal{#1}{Ё}{#2=129\relax}%
+	{\ifstrequal{#1}{Ж}{#2=130\relax}%
+	{\ifstrequal{#1}{З}{#2=131\relax}%
+	{\ifstrequal{#1}{И}{#2=132\relax}%
+	{\ifstrequal{#1}{Й}{#2=133\relax}%
+	{\ifstrequal{#1}{К}{#2=134\relax}%
+	{\ifstrequal{#1}{Л}{#2=135\relax}%
+	{\ifstrequal{#1}{М}{#2=136\relax}%
+	{\ifstrequal{#1}{Н}{#2=137\relax}%
+	{\ifstrequal{#1}{О}{#2=138\relax}%
+	{\ifstrequal{#1}{П}{#2=139\relax}%
+	{\ifstrequal{#1}{Р}{#2=140\relax}%
+	{\ifstrequal{#1}{С}{#2=141\relax}%
+	{\ifstrequal{#1}{Т}{#2=142\relax}%
+	{\ifstrequal{#1}{У}{#2=143\relax}%
+	{\ifstrequal{#1}{Ф}{#2=144\relax}%
+	{\ifstrequal{#1}{Х}{#2=144\relax}%
+	{\ifstrequal{#1}{Ц}{#2=145\relax}%
+	{\ifstrequal{#1}{Ч}{#2=146\relax}%
+	{\ifstrequal{#1}{Ш}{#2=147\relax}%
+	{\ifstrequal{#1}{Щ}{#2=148\relax}%
+	{\ifstrequal{#1}{Ь}{#2=149\relax}%
+	{\ifstrequal{#1}{Ы}{#2=150\relax}%
+	{\ifstrequal{#1}{Ъ}{#2=151\relax}%
+	{\ifstrequal{#1}{Э}{#2=152\relax}%
+	{\ifstrequal{#1}{Ю}{#2=153\relax}%
+	{\ifstrequal{#1}{Я}{#2=154\relax}%
+	%
+	{\ifstrequal{#1}{а}{#2=123\relax}%
+	{\ifstrequal{#1}{б}{#2=124\relax}%
+	{\ifstrequal{#1}{в}{#2=125\relax}%
+	{\ifstrequal{#1}{г}{#2=126\relax}%
+	{\ifstrequal{#1}{д}{#2=127\relax}%
+	{\ifstrequal{#1}{е}{#2=128\relax}%
+	{\ifstrequal{#1}{ё}{#2=129\relax}%
+	{\ifstrequal{#1}{ж}{#2=130\relax}%
+	{\ifstrequal{#1}{з}{#2=131\relax}%
+	{\ifstrequal{#1}{и}{#2=132\relax}%
+	{\ifstrequal{#1}{й}{#2=133\relax}%
+	{\ifstrequal{#1}{к}{#2=134\relax}%
+	{\ifstrequal{#1}{л}{#2=135\relax}%
+	{\ifstrequal{#1}{м}{#2=136\relax}%
+	{\ifstrequal{#1}{н}{#2=137\relax}%
+	{\ifstrequal{#1}{о}{#2=138\relax}%
+	{\ifstrequal{#1}{п}{#2=139\relax}%
+	{\ifstrequal{#1}{р}{#2=140\relax}%
+	{\ifstrequal{#1}{с}{#2=141\relax}%
+	{\ifstrequal{#1}{т}{#2=142\relax}%
+	{\ifstrequal{#1}{у}{#2=143\relax}%
+	{\ifstrequal{#1}{ф}{#2=144\relax}%
+	{\ifstrequal{#1}{х}{#2=144\relax}%
+	{\ifstrequal{#1}{ц}{#2=145\relax}%
+	{\ifstrequal{#1}{ч}{#2=146\relax}%
+	{\ifstrequal{#1}{ш}{#2=147\relax}%
+	{\ifstrequal{#1}{щ}{#2=148\relax}%
+	{\ifstrequal{#1}{ь}{#2=149\relax}%
+	{\ifstrequal{#1}{ы}{#2=150\relax}%
+	{\ifstrequal{#1}{ъ}{#2=151\relax}%
+	{\ifstrequal{#1}{э}{#2=152\relax}%
+	{\ifstrequal{#1}{ю}{#2=153\relax}%
+	{\ifstrequal{#1}{я}{#2=154\relax}%
+	{\dtlsetdefaultUTFviiilccharcode{#1}{#2}}%
+}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+
+\newcommand\writexml{
+    \newcount\u
+    \u=1
+    \loop
+      \begingroup
+      	 \immediate\write18{vestnik2xml \@nameuse{@articlename\the\u}}
+      \endgroup
+      \advance \u 1
+    \unless\ifnum\u>\value{article@counter}
+    \repeat
+        
+	\newoutputstream{xml}
+	\openoutputfile{\jobname.xml}{xml}
+	
+	%% Цикл авторов статьи
+	\addtostream{xml}{<?xml version='1.0' standalone='no' ?>}
+	\addtostream{xml}{<journal>}
+	
+	\addtostream{xml}{\space<titleid>9261</titleid>} %Исправить
+	\addtostream{xml}{\space<issn>1729-5459</issn>}
+	\addtostream{xml}{\space<eissn></eissn>}
+	\addtostream{xml}{\space<journalInfo lang="RUS">}
+	\addtostream{xml}{\space\space<title>Экологический вестник научных центров Черноморского экономического сотрудничества</title>}
+	\addtostream{xml}{\space</journalInfo>}
+
+	\addtostream{xml}{\space<issue>}
+	\addtostream{xml}{\space\space<volume>\VOLUME</volume>}
+	\addtostream{xml}{\space\space<number>\ISSUE</number>}
+	\addtostream{xml}{\space\space<dateUni>\YEAR</dateUni>}
+%	\addtostream{xml}{\space\space<altNumber></altNumber>}
+%	\addtostream{xml}{\space\space<part></part>}
+	\addtostream{xml}{\space\space<pages>1-\number\getpagerefnumber{LastPage}</pages>} %Исправить
+	\addtostream{xml}{\space\space<issTitle></issTitle>}
+	
+	\addtostream{xml}{\space\space<articles>}
+	\newcounter{@tmpx}
+	\whiledo{\value{@tmpx} < \value{article@counter}}{
+    	\stepcounter{@tmpx}
+		\openin3=\@nameuse{@articlename\the@tmpx}.xml
+		\addtostream{xml}{\space\space\space<!-- \@nameuse{@articlename\the@tmpx} -->}
+		\endlinechar-1
+		\loop
+			\read3 to\line
+			\ifx\line\@empty\else
+				\addtostream{xml}{\space\space\space\line}
+			\fi
+			\ifeof3
+			\else
+		\repeat
+		\closein3
+	}
+%	\newcounter{@tmpy}
+%	\whiledo{\value{@tmpy} < \value{article@counter}}{
+%	\stepcounter{@tmpy}
+%		\addtostream{xml}{\space\space<pages>1-49</pages>}
+%	}
+	\addtostream{xml}{\space\space</articles>}
+	\addtostream{xml}{\space</issue>}
+	\addtostream{xml}{</journal>}
+	\closeoutputstream{xml}
+}
+
+\newcommand\writedoixml{
+	\newoutputstream{doi}
+	\openoutputfile{\jobname-doi.xml}{doi}
+	
+	%% Цикл авторов статьи
+	\addtostream{doi}{<doi_batch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.crossref.org/schema/4.4.0" version="4.4.0" xsi:schemaLocation="http://www.crossref.org/schema/4.4.0 http://www.crossref.org/schema/deposit/crossref4.4.0.xsd">}
+	\addtostream{doi}{<head>}
+	\addtostream{doi}{\space<doi_batch_id>vestnik202401211628</doi_batch_id>}
+	\addtostream{doi}{\space<timestamp>202401211628</timestamp>}
+	\addtostream{doi}{\space<depositor>}
+    \addtostream{doi}{\space\space<depositor_name>ksut</depositor_name>}
+    \addtostream{doi}{\space\space<email_address>mojar@kubsu.ru</email_address>}
+    \addtostream{doi}{\space</depositor>}
+    \addtostream{doi}{\space<registrant>Kuban State University</registrant>}
+	\addtostream{doi}{</head>}
+	
+	\addtostream{doi}{\space<body>}
+	\addtostream{doi}{\space\space<journal>}
+	\addtostream{doi}{\space\space\space<journal_metadata>}
+	\addtostream{doi}{\space\space\space\space<full_title>Ecological Bulletin of Research Centers of the Black Sea Economic Cooperation</full_title>}
+    \addtostream{doi}{\space\space\space\space<abbrev_title>EBRC BSEC</abbrev_title>}
+    \addtostream{doi}{\space\space\space\space<issn media_type="print">17295459</issn>}
+    \addtostream{doi}{\space\space\space\space<doi_data>}
+    \addtostream{doi}{\space\space\space\space\space<doi>10.31429/vestnik</doi>}
+    \addtostream{doi}{\space\space\space\space\space<resource>http://vestnik.kubsu.ru/</resource>}
+    \addtostream{doi}{\space\space\space\space</doi_data>}
+	\addtostream{doi}{\space\space\space</journal_metadata>}
+
+    \addtostream{doi}{\space\space\space<journal_issue>}
+    \addtostream{doi}{\space\space\space\space<publication_date media_type="print">}
+    \addtostream{doi}{\space\space\space\space\space<month>\PRESSDATE</month>}
+    \addtostream{doi}{\space\space\space\space\space<day>\PRESSDATE</day>}
+    \addtostream{doi}{\space\space\space\space\space<year>\PRESSDATE</year>}
+    \addtostream{doi}{\space\space\space\space</publication_date>}
+    \addtostream{doi}{\space\space\space\space<journal_volume>}
+    \addtostream{doi}{\space\space\space\space\space<volume>\VOLUME</volume>}
+    \addtostream{doi}{\space\space\space\space</journal_volume>}
+    \addtostream{doi}{\space\space\space\space<issue>\ISSUE</issue>}
+    \addtostream{doi}{\space\space\space\space<doi_data>}
+    \addtostream{doi}{\space\space\space\space\space<doi>10.31429/vestnik-\VOLUME-\ISSUE</doi>}
+    \addtostream{doi}{\space\space\space\space\space<resource>http://vestnik.kubsu.ru/issue/view/\OJSISSUE</resource>}
+    \addtostream{doi}{\space\space\space\space</doi_data>}
+    \addtostream{doi}{\space\space\space</journal_issue>}
+         
+	\newcounter{@tmpm}
+	\whiledo{\value{@tmpm} < \value{article@counter}}{
+    	\stepcounter{@tmpm}
+		\openin3=\@nameuse{@articlename\the@tmpm}.doi
+		\addtostream{doi}{\space\space\space<!-- \@nameuse{@articlename\the@tmpm} -->}
+		\endlinechar-1
+		\loop
+			\read3 to\line
+			\ifx\line\@empty\else
+				\addtostream{doi}{\space\space\space\line}
+			\fi
+			\ifeof3
+			\else
+		\repeat
+		\closein3
+	}
+	\addtostream{doi}{\space\space</journal>}
+	\addtostream{doi}{\space</body>}
+	\addtostream{doi}{</doi_batch>}
+	\closeoutputstream{doi}
+}
+
+\def\normalize#1{
+	\StrSubstitute{#1}{~}{\space}[\@itmp]
+	\@itmp
+}
+
+\fancypagestyle{firstof}{
+	\fancyhf{}
+	\fancyfoot[RO,LE]{\scriptsize\bf\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+}
+
+\fancypagestyle{fancyppl}{
+	\fancyhf{}
+	\fancyhead[CO,CE]{\scriptsize\it Информация об авторах}
+	\fancyfoot[RO,LE]{\scriptsize\bf\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+}
+
+\fancypagestyle{fancyrulesrus}{
+	\fancyhf{}
+	\fancyhead[CO,CE]{\scriptsize\it К сведению авторов}
+	\fancyfoot[RO,LE]{\scriptsize\bf\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+}
+
+\fancypagestyle{fancyruleseng}{
+	\fancyhf{}
+	\fancyhead[CO,CE]{\scriptsize\it Author's Guide}
+	\fancyfoot[RO,LE]{\scriptsize\bf\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+}
+
+\fancypagestyle{fancytocyear}{
+	\fancyhf{}
+	\fancyhead[CO,CE]{\scriptsize\it Содержание номеров за \YEAR год}
+	\fancyfoot[RO,LE]{\scriptsize\bf\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+}
+\makeatother
+
+\endinput

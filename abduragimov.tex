@@ -1,0 +1,385 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[press]{vestnik}
+
+\draft{3}
+
+\OJS{1055}
+
+\begin{document}
+
+\udc{517.927.4}
+
+\rubric{Математика}
+
+\titlerus[О существовании и единственности положительного решения краевой задачи\ldots]{О существовании и единственности положительного решения краевой задачи для одного нелинейного функционально-дифференциального уравнения третьего порядка} %% Название на русском языке
+
+\addtotocrus{О существовании и единственности положительного решения краевой задачи для одного нелинейного функционально-дифференциального уравнения третьего порядка}
+
+\titleeng[On the existence and uniqueness of a positive solution to a boundary value problem\ldots]{On the existence and uniqueness of a positive solution to a boundary value problem for one nonlinear functional differential equation of third order} 
+
+\addtotoceng{On the Existence and Uniqueness of a Positive Solution to a Boundary Value Problem for One Nonlinear Functional Differential Equation of Third Order}
+
+\authorrus*{Абдурагимов}{Гусен Эльдерханович}
+\authoreng*{Abduragimov}{Gusen E.}
+\inforus{канд. физ.-мат. наук, доцент кафедры прикладной математики Дагестанского государственного университета}
+\infoeng{Cand. (Physical and Mathematical), Associate Professor, Department of Applied Mathematics, Dagestan State University}
+\orcid{0000-0001-7095-932X}
+\email{gusen_e@mail.ru}
+\address{Рабочий: 367025, Махачкала, ул. Дзержинского, 12. Домашний: 367030, Махачкала, пр. И. Шамиля, 55/167, 8(988)2922587}
+
+\affilrus{\orgname{Дагестанский государственный университет}, ул. Магомеда Гаджиева 43-а, \city{Махачкала}, 367000, \country{Россия}}
+\affileng{\orgname{Dagestan State University}, st. Magomed Gadzhiev 43-a, \city{Makhachkala}, 367000, \country{Russia}}
+
+\reviewer{Овчинников}{Алексей Витальевич}
+\inforev{канд. физ.-мат. наук, доцент кафедры математики физического факультета МГУ им. М.В. Ломоносова, заведующий отделом научной информации по фундаментальной и прикладной математике ВИНИТИ РАН}
+\affilrev{\orgname{Всероссийский институт научной и технической информации РАН}, \city{Москва}, \country{Россия}}
+\emailrev{ovchinnikov@viniti.ru}
+
+\review{Содержание статьи в пределах тематики журнала. Статьи, в которых доказываются теоремы существования и единственности решений различных краевых задач, широко распространены, однако их содержание сильно варьируется в зависимости от типа и порядка рассматриваемых уравнений и вида дополнительных условий, класса разыскиваемых решений, применяемых методов. Статья актуальна для развития теории нелинейных функционально-дифференциальных уравнений. Название точно отражает содержание статьи. Аннотация ясная и адекватная. Введение ясное и адекватное. Использованные методы соответствуют задаче. Результаты исследований ясные и четкие. Текст заключения повторяет текст аннотации и введения и не содержит никаких новых положений или выводов. По мнению рецензента, заключение должно быть или заменено или исключено из работы. Объем статьи достаточный. Стиль изложения требует несущественной редактуры: предлагаемые исправления отмечены в тексте. Следует обратить внимание на согласование падежей, а также использование дефиса и тире, как и других знаков препинания. Кроме того предлагаю заменить неблагозвучное слово «подлинейный» на «сублинейный» (англ. «sublinear»). Аббревиатуры, формулы, единицы измерения соответствуют принятым стандартам. Библиография соответствует содержанию, но при необходимости рекомендую добавить ссылки на исследования автора по обсуждаемой тематике. Общая оценка статьи - хорошая. Статья может быть рекомендована к публикации после незначительных доработок.}
+
+\annotationrus{В статье рассматривается краевая задача для одного  нелинейного функционально-дифференциального уравнения третьего порядка с симметричными граничными условиями. С помощью теоремы Красносельского о неподвижной точке конуса установлены достаточные условия существования по меньшей мере одного положительного решения рассматриваемой задачи. В сублинейном случае доказана и единственность такого решения.  Приведен пример, иллюстрирующий полученные результаты.}
+
+\annotationeng{The boundary value problem is considered
+\begin{align*}
+&x'''(t)+f \left (t,\left(Tx \right)(t) \right)=0,\qquad 0<t<1,\\
+&x(0)=x(1)=0,  \\
+&x''(0)=x''(1),
+\end{align*}
+where $T$ --- linear positive continuous operator.
+Using the Green's function and Krasnoselsky's fixed point theorem, we formulate and prove the existence of positive solutions to the above boundary value problem for a third-order nonlinear functional differential equation. Next, in the sublinear case, using the fixed point principle, we establish the uniqueness of~a~positive solution to the problem under study. In addition, an example is given to illustrate the results obtained.}
+
+\keywordsrus{положительное решение, краевая задача, конус, функция Грина}
+
+\keywordseng{positive solution, boundary value problem, cone, Green's function}
+
+\date{26-03-2024}
+\revised{1-05-2024}
+\accepted{13-05-2024}
+
+\maketitle
+
+\section*{Введение}
+
+Краевым задачам для нелинейных функционально-дифференциальных уравнений посвящено достаточно большое количество работ, в которых рассматриваются вопросы существования положительных решений, их поведения, асимптотики и т.д., причем естественным орудием исследования являются методы функционального анализа, основанные на использовании полуупорядоченных пространств, теория которых связана с именами Ф. Рисса, М.\,Г. Крейна, Л.\,В. Канторовича, Г. Фрейденталя, Г. Биркгофа и др. Впоследствии методы исследования положительных решений  операторных уравнений были развиты М.\,А. Красносельским и его учениками Л.\,А. Ладыженским, И.\,А. Бахтиным, В.\,Я. Стеценко, Ю.\,В. Покорным и др.
+
+Одним из наиболее часто используемых инструментов для доказательства существования положительных решений интегральных уравнений и краевых задач является теорема Красносельского о конусном расширении и сжатии и различные модификации этой известной теоремы. Уравнения третьего порядка возникают в различных областях прикладной математики и физики, таких как отклонение изогнутой балки, имеющей постоянное или переменное поперечное сечение, задачи для трехслойной балки, электромагнитных волн или гравитационных потоков и т.д. Существует большое количество работ, посвященных проблеме существования положительных решений краевых задач. Однако лишь в немногих работах рассматривалась задача для дифференциальных уравнений третьего порядка (например, \cite{1,2,3,4,5,6,7,8}). Во~всех упомянутых выше работах авторы использовали теорему Красносельского о неподвижной точке теории конуса или индекса неподвижной точки.
+
+Насколько нам известно, вопросы существования и единственности положительных решений нелинейных краевых задач для функционально-дифференциальных уравнений третьего порядка мало изучены; в основном, результаты касаются уравнений с запаздывающим аргументом (например, \cite{9,10} и ссылки в них). В предлагаемой статье предпринята попытка в некоторой мере обобщить разрозненные частные результаты и устранить обозначенный выше пробел. С помощью известной теоремы Го--Красносельского получены достаточные условия существования по меньшей мере одного положительного решения краевой задачи для одного нелинейного функционально-дифференциального уравнения третьего порядка. В~сублинейном случае на основе принципа сжатых отображений установлена и единственность положительного решения.
+
+\section{Постановка задачи и основные результаты}
+
+Обозначим через $\mathbb{C}$ пространство непрерывных на отрезке $[0, 1]$ функций,  $\mathbb{L}_p$  $(1<p<\infty)$~--- пространство суммируемых на $[0, 1]$ со степенью $p\in (1,\infty)$ функций и  $\mathbb{W}^3$ --- пространство вещественных функций с абсолютно непрерывной второй производной, определенных на $[0, 1]$.
+
+Рассмотрим краевую задачу
+\begin{align}
+&x'''(t)+f \left (t,\left(Tx \right)(t) \right)=0,\qquad 0<t<1,\label{1}\\
+&x(0)=x(1)=0, \label{2} \\
+&x''(0)=x''(1), \label{3}
+\end{align}
+где $T\colon \mathbb{C} \to \mathbb{L}_p$ --- линейный положительный непрерывный оператор, функция $f(t,u)$ неотрицательна на $[0, 1]\times[0, \infty)$, монотонна по второму аргументу, удовлетворяет условию Каратеодори и $f(\,\cdot\,, 0)\equiv0$.
+
+Под положительным решением задачи \eqref{1}--\eqref{3} будем подразумевать  функцию $x\in \mathbb{W}^3$, положительную в интервале $(0, 1)$, удовлетворяющую почти всюду на указанном интервале уравнению \eqref{1} и краевым условиям \eqref{2}--\eqref{3}.
+
+Рассмотрим эквивалентное задаче \eqref{1}--\eqref{3} интегральное уравнение
+\begin{align}
+x(t)={\int\limits_{0}^{1}} G(t,s)f \left (s,\left(Tx \right)(s) \right)\d s,\quad 0\leqslant t\leqslant 1, \label{4}
+\end{align}
+где $G(t,s)$ --- функция Грина оператора $-{\d^3}/{\d t^3}$ с краевыми условиями \eqref{2}--\eqref{3}
+\[
+G(t,s)=\left\{
+\begin{aligned}
+&\left(s-\frac{s^2}{2}\right)t-\frac{t^2}{2}, & \text{$0\leqslant t\leqslant s$,} \\[2mm]
+&\frac{s^2}{2}(1-t), & \text{$s\leqslant t\leqslant 1$}.\\
+\end{aligned}\right.
+\]
+
+Нетрудно показать, что имеют место следующие свойства:
+\begin{equation}
+\max_{0\leqslant t\leqslant1}G(t,s)=\psi(s), \quad s\in[0, 1] \label{5}
+\end{equation}
+и
+\begin{equation}
+G(t,s)\geqslant \psi(s)\varphi(t), \quad (t,s)\in [0, 1]\times[0, 1], \label{6}
+\end{equation}
+где 
+\[
+\psi(s)=\frac12\left(s-\frac{s^2}{2}\right), \quad \varphi(t)=\min\{t, 1-t\}.
+\]
+
+Предположим, что при почти всех $t\in[0, 1]$ и $u\geqslant0$ функция $f(t,u)$ удовлетворяет условию
+\begin{align}
+f(t,u)\leqslant bu^{p/q}, \label{7}
+\end{align}
+где $b>0$, $q\in(1,\infty)$.
+
+В операторной форме уравнение \eqref{4} можно записать так:
+\[
+x=GNTx,
+\]
+где $ N\colon \mathbb{L}_p \to \mathbb{L}_q\ $ --- оператор Немыцкого,  $ G\colon \mathbb{L}_q \to \mathbb{C}$ --- оператор Грина.
+
+Оператор $A$, определяемый равенством
+\begin{align*}
+(Ax)(t)={\int\limits_{0}^{1}} G(t,s)f \left (s,\left(Tx \right)(s) \right)\d s,\quad 0\leqslant t\leqslant 1,
+\end{align*}
+действует в пространстве неотрицательных непрерывных функций и вполне непрерывен~\cite[, c.~161]{11}.
+
+Определим конус $K$ пространства $\mathbb{C}$ следующим образом:
+\[
+K=\left\{x\in \mathbb{C}: \ x(t)\geqslant0, x(t\geqslant \varphi(t) \|x\|_{\mathbb{C}} \right\}.
+\]
+
+\begin{prop}[1]{Лемма} \label{lem-1}
+Оператор $A$ оставляет инвариантным  конус $K$.
+\end{prop}
+\begin{proof}
+В силу \eqref{5} при $x\in K$ имеем
+\begin{equation}
+\|Ax\|_{\mathbb{C}}=\max_{0\leqslant t\leqslant1}{\int\limits_{0}^{1}} G(t,s)f \left (s,\left(Tx \right)(s) \right)\d s \leqslant {\int\limits_{0}^{1}} \psi(s)f \left (s,\left(Tx \right)(s) \right)\d s. \label{8}
+\end{equation}
+С другой стороны, в силу \eqref{6} и \eqref{8} при $x\in K$ соответственно получим
+\[
+(Ax)(t)={\int\limits_{0}^{1}} G(t,s)f \left (s,\left(Tx \right)(s) \right)\d s\geqslant \varphi(t){\int\limits_{0}^{1}}\psi(s)f \left (s,\left(Tx \right)(s) \right)\d s\geqslant\varphi(t)\|Ax\|_{\mathbb{C}}.
+\]
+\end{proof}
+
+В дальнейшем для доказательства существования по крайней мере одного положительного решения задачи~\eqref{1}--\eqref{3} нам понадобится следующая известная теорема Красносельского~\cite{12}.
+
+\begin{prop}[1]{Теорема} \label{teor-1}
+Пусть $X$ --- банахово пространство и $P\subset X$ --- конус в $X$. Предположим, что $\Omega_1$, $\Omega_2$~--- открытые подмножества в $X$ с  $0\in\overline{\Omega}_1\subset \Omega_2$ и $\mathcal{A}:P \to P$ --- вполне непрерывный оператор такой, что
+\begin{itemize}
+          \item[$(i)$]  $\|\mathcal{A}u\|\leqslant \|u\|$, $\forall u\in P \cap \partial \Omega_1$ и $\|\mathcal{A}u\|\geqslant \|u\|$, $\forall u\in P \cap \partial \Omega_2$, или
+          \item[$(ii)$] $\|\mathcal{A}u\|\geqslant \|u\|$, $\forall u\in P \cap \partial \Omega_1$ и $\|\mathcal{A}u\|\leqslant \|u\|$, $\forall u\in P \cap \partial \Omega_2$.
+\end{itemize}
+Тогда $\mathcal{A}$ имеет неподвижную точку в $P \cap (\overline{\Omega}_2 \backslash \Omega_1)$.
+\end{prop}
+
+Введем  обозначения:
+\[
+\Omega_r = \bigl\{u\in K: \|u\|_{\mathbb{C}} < r \bigr\}, \quad \Omega_R = \bigl\{u\in K: \|u\|_{\mathbb{C}} < R \bigr\},
+\]
+\[
+\partial\Omega_r=\bigl\{u\in K: \|u\|_{\mathbb{C}} = r \bigr\},\quad \partial\Omega_R=\bigl\{u\in K: \|u\|_{\mathbb{C}} = R \bigr\},
+\]
+\[
+\Omega = \overline{ \Omega}_R \backslash \Omega_r,
+\]
+где $r$, $R>0$, причем $r<R$.
+
+Кроме того, для удобства выкладок целесообразно введение следующих обозначений:
+\[
+f_0=\lim_{u\rightarrow 0^+}\mathop{\rm vrai}\inf_{t\in[0,1]}\dfrac{f(t,u)}{u}, \quad f_\infty=\lim_{u\rightarrow +\infty}\mathop{\rm vrai}\inf_{t\in[0,1]}\dfrac{f(t,u)}{u}.
+\]
+
+\begin{prop}[2]{Теорема} \label{teor-2}
+Предположим, что вместе с \eqref{7} выполнены условия
+      \begin{enumerate}
+          \item $p\neq q$;
+          \item $f_0= \infty$ при $p<q$;
+          \item $f_\infty= \infty$ при $p>q$;
+          \item $\min_{t\in[0,1]}(T\chi)(t)>0$, где $\chi(t)\equiv1$.
+      \end{enumerate}
+Тогда краевая задача \eqref{1}--\eqref{3} имеет по крайней мере одно положительное решение.
+\end{prop}
+
+\begin{proof}
+Рассмотрим случай $p<q$. Покажем выполнение условия $(ii)$ теоремы \ref{teor-1}. Для этого, в частности, укажем такое число $r>0$, что при $x\in\partial\Omega_r$
+\begin{equation}\label{9}
+\|Ax\|_{\mathbb{C}}\geqslant \|x\|_{\mathbb{C}}.
+\end{equation}
+
+В силу условия 2 настоящей теоремы найдется такое число $L>0$, что
+\begin{align}
+\mathop{\rm vrai}\inf_{t\in[0,1]}f(t,u)\geqslant \delta u, \quad 0<u\leqslant L, \label{10}
+\end{align}
+где $\delta \geqslant \dfrac{2}{\int\limits_0^1 \psi(s)(T\varphi)(s)\d s}>0$.
+
+При $x\in \partial\Omega_r$, выбрав $0<r\leqslant\dfrac{L}{\max_{t\in[0,1]}(T\chi)(t)}$,  имеем
+\[
+(Tx)(t)\leqslant \|x\|_{\mathbb{C}}(T\chi)(t) \leqslant r \max_{t\in [0,1]}(T\chi)(t)\leqslant L, \quad t\in[0,1].
+\]
+
+В силу \eqref{6} и \eqref{10} для $x\in \partial\Omega_r$ имеем
+\[
+(Ax)(t)=\int\limits_0^1 G(t,s)f \left (s,\left(Tx \right)(s) \right)\d s\geqslant \delta\varphi(t)\int\limits_0^1 \psi(s)(Tx)(s)\d s\geqslant\delta\varphi(t)\int\limits_0^1 \psi(s)(T\varphi)(s)\d s\cdot \|x\|_{\mathbb{C}}.
+\]
+После нормировки обеих частей последнего неравенства, принимая во внимание ограничения на $\delta$, придем к соотношению \eqref{10}.
+
+Подберем теперь такое число $R>0$, что при  $x\in \partial\Omega_R$ выполнено условие
+\begin{align}
+\|Ax\|_{\mathbb{C}}\leqslant \|x\|_{\mathbb{C}}. \label{11}
+\end{align}
+
+Действительно, в силу \eqref{5} и \eqref{7}, воспользовавшись неравенством Гёльдера, при $x\in \partial\Omega_R$ имеем
+\begin{multline*}
+(Ax)(t)=\int\limits_0^1 G(t,s)f \left (s,\left(Tx \right)(s) \right)\d s \leqslant b \int\limits_0^1 \psi(s)\left (Tx \right)^{\frac{p}{q}}(s)\d s\leqslant\\
+\leqslant b \|\psi\|_{\mathbb{L}_{q'}} \|Tx\|^\frac{p}{q}_{\mathbb{L}_p}\leqslant b \|\psi\|_{\mathbb{L}_{q'}} \tau^\frac{p}{q} \|x\|^\frac{p}{q}_{\mathbb{C}}=b\|\psi\|_{\mathbb{L}_{q'}} \tau^\frac{p}{q} R^{\frac{p}{q}-1}\|x\|_{\mathbb{C}},
+\end{multline*}
+где $\tau$ --- норма оператора $T$, 
+\[
+\frac{1}{q'}+\frac{1}{q}=1.
+\]
+
+Взяв теперь в качестве $R$ такое положительное число, что
+\begin{equation}
+R\leqslant \biggl(\dfrac{1}{b\|\psi\|_{\mathbb{L}_{q'}} \tau^\frac{p}{q}}\biggr)^{\frac{q}{p-q}}, \label{12}
+\end{equation}
+очевидным образом гарантируем выполнение \eqref{11}.
+
+Следовательно, вполне непрерывный оператор $A$ имеет  по крайней мере одну неподвижную точку в $\Omega$, что в свою очередь равносильно существованию хотя бы одного положительного решения краевой задачи \eqref{1}--\eqref{3} в указанной области. По аналогичной схеме несложно доказать справедливость теоремы и в случае $p>q$. Как легко видеть, для этого необходимо убедиться в выполнении условия $(i)$ теоремы \ref{teor-1}. Теорема доказана.
+\end{proof}
+
+В предположении справедливости теоремы \ref{teor-2} запишем неравенство \eqref{10}, вытекающее из условия 2 теоремы \ref{teor-2}, следующим образом:
+\begin{equation}
+\mathop{\rm vrai}\inf_{t\in[0,1]}f(t,u)\geqslant \delta L^{1-\frac{p}{q}}u^\frac{p}{q}, \quad 0<u\leqslant L. \label{13}
+\end{equation}
+
+В силу \eqref{4}, \eqref{6} и \eqref{13} для $x\in K$ имеем
+\[
+x(t)\geqslant \varphi(t)\delta  L^{1-\frac{p}{q}}{\int\limits_0^1}\psi(s) \left (Tx \right)^{\frac{p}{q}}(s)\d s \geqslant \varphi(t)\delta  L^\frac{q-p}{q} \|x\|^\frac{p}{q}_{\mathbb{C}}{\int\limits_0^1} \psi(s)\left (T\varphi \right)^{\frac{p}{q}}(s)\d s.
+\]
+Откуда после нормировки, разрешив полученное неравенство, получим априорную оценку
+\begin{equation}
+\|x\|_{\mathbb{C}}\geqslant \xi, \label{14}
+\end{equation}
+где 
+\[
+\xi=L\biggl(\dfrac{\delta}{2} {\int\limits_0^1} \psi(s)\left (T\varphi \right)^{\frac{p}{q}}(s)\d s\biggr)^\frac{q}{q-p}.
+\]
+
+
+\begin{prop}[3]{Теорема} \label{teor-3}
+Предположим, что выполнены условия теоремы \ref{teor-2}, функция $f(t,u)$ дифференцируема по второму аргументу, а частная производная $f_u'(t,u)$  монотонно убывает по $u$. Кроме того, допустим, что
+\begin{gather}
+\|\theta\|_{\mathbb{L}_{p'}}<\dfrac {4}{\tau}, \label{15}
+\end{gather}
+где 
+\[
+\theta(t)= f_u'(t,\zeta),\quad \zeta=\xi\min_{0\leqslant t\leqslant1}(T\chi)(t), \quad \frac1{p'}+\frac1p=1.
+\]
+Тогда краевая задача \eqref{1}--\eqref{3} имеет единственное положительное решение.
+\end{prop}
+\begin{proof}
+Пусть $x_1(t)$ и $x_2(t)$ --- различные положительные решения задачи \eqref{1}--\eqref{3}. Согласно формуле конечных приращений Лагранжа
+\begin{equation}
+f \left (s,\left(Tx_1 \right)(s) \right)-f \left (s,\left(Tx_2 \right)(s) \right)=f_u'(t,\tilde{u}(s))(Ty)(s), \label{16}
+\end{equation}
+где функция $\tilde{u}(t)$ принимает значения промежуточные между $(Tx_1)(t)$ и $(Tx_2)(t)$. При этом заметим, что соотношение \eqref{14} влечет оценку
+\begin{equation}
+\tilde{u}(t)\geqslant \zeta, \label{17}
+\end{equation}
+где $\zeta=\xi\min\limits_{0\leqslant t\leqslant1}(T\chi)(t)>0$.
+
+Ввиду монотонности $f_u'(t,u)$, \eqref{5} и \eqref{17} с учетом того, что $\max\limits_{0\leqslant s\leqslant 1}\psi(s)=1/4$, для любого $x\in K$ имеем
+\begin{multline*}
+\|Ax_1-Ax_2\|_{\mathbb{C}}\leqslant \frac14 {\int\limits_0^1} \left|f_u'(s,\tilde{u}(s))\right| \left|(Ty)(s)\right|\d s\leqslant\\
+\leqslant \frac14 {\int\limits_0^1} |f_u'(s,\zeta)| |(Ty)(s)|\d s\leqslant \frac14\|\theta\|_{\mathbb{L}_{p'}} \|Ty\|_{\mathbb{L}_p}\leqslant \frac14\|\theta\|_{\mathbb{L}_{p'}} \tau\|y\|_{\mathbb{C}},
+\end{multline*}
+где 
+\[
+\theta(t)\equiv f_u'(t,\zeta),\quad \frac1{p'}+\frac1p=1.
+\]
+
+Следовательно, в силу условия \eqref{15} теоремы из принципа сжатых отображений следует, что краевая задача \eqref{1}--\eqref{3} имеет единственное положительное решение.
+\end{proof}
+
+
+В заключение приведен пример, иллюстрирующий выполнение полученных результатов.
+
+{\bf Пример 1.} Рассмотрим следующую краевую задачу для интегро-дифференциального уравнения:
+\begin{align}
+&x'''(t)+\alpha (t+1)^\beta\sqrt{{\int\limits_{0}^{1}} x(s)\d s} =0,\quad 0<t<1,\label{18}\\
+&x(0)=x(1),\    x''(0)=x''(1), \label{19}
+\end{align}
+где  $\alpha>0$, $\beta\geqslant0$.
+
+Здесь, $p/q=1/2$ и $f(t,u)=\alpha (t+1)^\beta\sqrt{u}$. Для определенности положим $p=2$ и $q=4$. В~качестве $T\colon \mathbb{C} \to \mathbb{L}_2$ взят линейный интегральный оператор, определенный равенством 
+\[
+(Tx)(t)=\int\limits_{0}^{1}x(s)\d s.
+\]
+Имеем
+\[
+(T\varphi)(t)=\int\limits_{0}^{1}\varphi(s)\d s=\frac14.
+\]
+Потребуем  теперь выполнение условия \eqref{10} теоремы \ref{teor-2}:
+\[
+\alpha \sqrt{u} \geqslant \delta u, \quad u\in (0,L],
+\]
+где $\delta \geqslant 48$.
+Отсюда легко видеть, что последнее неравенство выполняется, например, при $L=\left({\alpha}/{\delta} \right)^2$. Следовательно, следуя схеме доказательства теоремы \ref{teor-2}, в качестве в качестве $r$, можно взять его верхнюю границу, т.е. число $4\left(\alpha/\delta \right)^2$.
+
+В свою очередь для нахождения $R$ рассмотрим неравенство \eqref{12}. Несложно видеть, что $\tau=1$. В неравенстве \eqref{7} соответственно положим $b=\alpha2^\beta$. Тогда имеем
+\[
+R\leqslant \alpha^24^\beta\left( \int\limits_{0}^{1}{\psi^\frac43(s)}\d s\right)^\frac32\approx0,03\alpha^24^\beta.
+\]
+Взяв в качестве $R$ пограничное значение, нетрудно убедиться, что для любых $\delta\geqslant 48$ независимо от выбора $\alpha$ и $\beta$ выполнено условие $0<r<R$. Следовательно, в силу теоремы \ref{teor-2} краевая задача \eqref{18}--\eqref{19} имеет по меньшей мере одно положительное решение.
+
+Докажем теперь единственность положительного решения задачи \eqref{18}--\eqref{19}. Функция 
+\[
+f_u'(t,u)=\dfrac{1}{2\alpha (t+1)^\beta\sqrt{u}},
+\]
+очевидно, монотонно убывает по второму аргументу. Неравенство \eqref{15} соответственно запишется 
+\begin{equation}
+\|\theta\|_{\mathbb{L}_2}<4, \label{20}
+\end{equation}
+где 
+\[
+\theta(t)= \frac{1}{2\alpha (t+1)^\beta\sqrt{\zeta}},\quad \zeta=\frac{\xi}{2}.
+\]
+В силу \eqref{14} имеем
+\[
+\xi= \dfrac{\alpha^2}{16}\biggl(\,\int\limits_0^1 \psi(s)\d s\biggr)^2=\dfrac{\alpha^2}{288}.
+\]
+Тогда $\theta(t)= \dfrac{12}{\alpha^2 (t+1)^\beta}$ и соответственно
+\[
+\|\theta\|_{\mathbb{L}_2}=\sqrt{\int\limits_0^1 \theta^2(s)\d s}=\frac{24}{\alpha^2}\cdot \frac{2^{1-2\beta}-1}{1-2\beta}.
+\]
+Следовательно, неравенство \eqref{20} окончательно примет вид
+\[
+\frac{2^{1-2\beta}-1}{1-2\beta}< \frac{\alpha^2}{6}.
+\]
+Таким образом, выполнение последнего неравенства гарантирует единственность положительного решения задачи \eqref{18}--\eqref{19}.
+
+\section*{Заключение}
+В работе рассматривается краевая задача для нелинейного функционально"=дифференциального уравнения третьего порядка с нелинейной и нелокальной добавкой. Граничными условиями для искомой функции $x(t)$ являются симметричные соотношения $x(0)=x(1)=0$ и~$x''(0)=x''(1)$. Решение задачи ищется в классе положительных на $(0, 1)$ функций с~абсолютно непрерывной второй производной. С помощью функции Грина обращается дифференциальная часть и~рассматриваемая задача сводится к равносильному нелинейному интегральному уравнению. Далее, используя теорему Красносельского о конусном расширении (сжатии), доказывается наличие по крайней мере одного положительного решения исследуемой задачи. Единственность такого решения установлена только в  сублинейном случае.
+
+
+\begin{thebibliography}{99}
+\bibitem{1}
+Yao, Q., Feng, Y., The existence of solution for a third-order two-point boundary value problem. \emph{Appl. Math. Lett.}, 2002, vol.~15, no.~2, pp.~227--232. \doi{10.1016/S0893-9659(01)00122-7}
+
+\bibitem{2}
+Liu, Z., Ume, J.S., Kang, S.M., Positive solutions of a singular nonlinear third order two-point boundary value problem. \emph{J. Math. Anal. Appl.}, 2007, vol.~326, no.~1, pp.~589--601. \doi{10.1016/j.jmaa.2006.03.030}
+
+\bibitem{3}
+El-Shahed, M., Positive solutions for nonlinear singular third order boundary value problem. \emph{Comm. Nonlinear Sci. Numer. Simul.}, 2009, vol.~14, no.~2, pp.~424--429. \doi{10.1016/j.cnsns.2007.10.008}
+
+\bibitem{4}
+Qu, H., Positive solutions of boundary value problems of nonlinear third-order differential equations. \emph{Int. J. Math. Anal.}, 2010, vol.~4, no.~17, pp.~855--860.
+
+\bibitem{5}
+Gao, Y., Wang, F., Existence of solutions of nonlinear mixed two-point boundary value problems for third-order nonlinear differential equation. \emph{J. Appl. Math.}, 2012, vol.~2012, pp.~1--12. \doi{10.1155/2012/262139}
+
+\bibitem{6}
+Cheng, Z., Existence of positive periodic solutions for third-order differential equation with strong singularity. \emph{Adv. Differ. Equ.}, 2014, vol.~2014, no.~162, pp.~1--12. \doi{10.1186/1687-1847-2014-162}
+
+\bibitem{7}
+Almuthaybiri, S.\,S., Tisdell, C., Sharper existence and uniqueness results for solutions to third-order boundary value problems. \emph{MMA}, 2020, vol.~25, no.~3, pp.~409--420. \doi{10.3846/mma.2020.11043}
+
+\bibitem{8}
+Murty, K.\,N., Sailaja, P., Existence and uniqueness of solutions to three-point boundary value problems associated with third order non-linear fuzzy differential equations. \emph{IJECS}, 2023, vol.~12, no.~2, pp.~25648--25653. \doi{10.18535/ijecs/v12i02.4719}
+
+\bibitem{9}
+Jankowski, T., Existence of positive solutions to third order differential equations with advanced arguments and nonlocal boundary conditions. \emph{Nonlinear Analysis: Theory, Methods \& Applications}, 2012, vol.~75, no.~2, pp.~913--923. \doi{10.1016/j.na.2011.09.025}
+
+\bibitem{10}
+Ardjouni, A., Djoudi,~A., Existence of positive periodic solutions for third-order nonlinear delay differential equations with variable coefficients. \emph{Mathematica Moravica}, 2019, vol.~23, no.~2, pp.~17--28. \doi{10.5937/MatMor1902017A}
+
+\bibitem{11}
+Крейн, С.\,Г., \emph{Функциональный анализ}. Москва, Наука, 1972. \altbib{Crane, S.G., Funktsional'nyy analiz = Functional analysis. Moscow, Nauka, 1982. (in Russian)}
+
+\bibitem{12}
+Zhou, W.X., Zhang, J.G., Li, J.M., Existence of multiple positive solutions for singular boundary value problems of nonlinear fractional differential equations. \emph{Adv. Differ. Equ.}, 2014, vol.~97, pp.~1--15. \doi{10.1186/1687-1847-2014-97}
+\end{thebibliography}
+
+\end{document}

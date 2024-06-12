@@ -1,0 +1,727 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[press]{vestnik}
+
+\begin{document}
+
+\draft{1}
+\OJS{1059}
+
+\rubric{Механика}
+
+\udc{539.3}
+
+\titlerus{Исследование задачи термоупругости для трансверсально-изотропного тела вращения}
+
+\addtotocrus{Исследование задачи термоупругости для трансверсально-изотропного тела вращения}
+
+\titleeng{Study of the thermoelasticity problem for~a~transversally isotropic body of rotation}
+
+\addtotoceng{Study of the Thermoelasticity Problem for~a~Transversally Isotropic Body of Rotation}
+
+\authorrus*{Иванычев}{Дмитрий Алексеевич}
+\authoreng*{Ivanychev}{Dmitry A.}
+\inforus{канд. физ.-мат. наук, доцент кафедры общей механики Липецкого государственного технического университета}
+\email{Lsivdmal@mail.ru}
+\orcid{0000-0002-7736-9311}
+
+\affilrus{\orgname{Липецкий государственный технический университет}, ул.~Интернациональная, 5, \city{Липецк}, 398600, \country{Россия}}
+\affileng{\orgname{Lipetsk State Technical University}, Iternationalnaya~st., 5, \city{Lipetsk}, 398600, \country{Russia}}
+
+\reviewer{Левина}{Екатерина Юрьевна}
+\inforev{к.т.н, доцент, кафедра физики, Московский государствен-ный технический университет им. Н.Э. Баумана}
+\emailrev{hensi-l@yandex.ru}
+\affilrev{\orgname{Московский государственный технический университет им. Н.Э. Баумана}, \city{Москва}, \country{Россия}}
+
+\review{}
+
+\annotationrus{В работе представлена математическая модель построения термоупругих полей 
+для анизотропного цилиндрического тела конечной длины. Цилиндр находится в 
+равновесии под действием установившегося поля температур, при отсутствии 
+дополнительных источников тепла. Материал цилиндра обладает прямолинейной 
+трансверсальной изотропией. Модель строится на основе энергетического метода 
+граничных состояний. Базис пространства внутренних состояний в составе 
+метода граничных состояний формируется согласно общему представлению, 
+выражающее пространственное напряженно-деформированное состояние через 
+совокупность плоских вспомогательных состояний. В~качестве таких состояний 
+выступают плоские решения термоупругой задачи. После формирования базиса 
+внутренних состояний проводится его ортогонализация, искомые 
+характеристики термоупругого поля раскладываются в ряд Фурье по элементам 
+ортонормированного базиса, где в качестве коэффициентов выступают 
+квадратуры.
+
+Приведено решение термоупругой задачи для кругового в плане цилиндра из 
+гипотетического трансверсально-изотропного материала. Представлены явные и 
+косвенные признаки сходимости решения задачи и результат представлен в 
+графическом виде.}
+
+\keywordsrus{термоупругость, метод граничных состояний, трансверсально-изотропные материалы, пространственная задача}
+
+\annotationeng{The paper presents a mathematical model for constructing thermoelastic 
+fields for an anisotropic cylindrical body of finite length. The cylinder is 
+in equilibrium under the influence of a steady temperature field, in the 
+absence of additional heat sources. The material of the cylinder has 
+rectilinear transversal isotropy. The model is built on the basis of the 
+energy method of boundary states. The basis of the space of internal states 
+as part of the boundary states method is formed according to the general 
+representation, expressing the spatial stress-strain state through a set of 
+plane auxiliary states. Such states are plane solutions of the thermoelastic 
+problem. After forming the basis of internal states, it is orthogonalized, 
+and the desired characteristics of the thermoelastic field are expanded into 
+a Fourier series according to the elements of the orthonormal basis, where 
+quadratures act as coefficients.
+
+A solution to the thermoelastic problem for a circular cylinder made of a 
+hypothetical transversally isotropic material is presented. Explicit and 
+indirect signs of convergence of the solution to the problem are presented 
+and the result is presented in graphical form.}
+
+\keywordseng{thermoelasticity, boundary state method, transversally isotropic 
+materials, spatial problem}
+
+\date{13-05-2024}
+\revised{30-05-2024}
+\accepted{5-06-2024}
+
+\maketitle
+
+Современное машиностроение с целью оптимизации формы деталей, возможности 
+использования современных материалов, таких как композиты, полимерные 
+материалы и др., предъявляет высокое требование к прочностным расчетам тел, 
+изготовленных из этих материалов. Зачастую дополнительно эти тела пребывают 
+в экстремальных температурных условиях, что вкупе со сложностью структуры 
+(анизотропия упругих свойств) материала усложняет расчет их 
+напряженно-деформированного состояния. Температурные поля в объектах 
+машиностроения определяют характер распределения температурных напряжений и 
+деформаций, которые при известных условиях могут вывести деталь из строя. 
+Важность решения задачи о~величине и характере распределения температурных 
+напряжений в телах из усложненных по свойствам материалов очевидна.
+
+Решению задач термоупругости для анизотропных тел, с той или иной симметрией 
+упругих свойств, посвящено множество работ. Например, в работе~\cite{B01} 
+исследуется задачи термомеханики для неоднородных анизотропных сред. 
+Предлагаемый подход решения задачи предполагает разбиения на подзадачи 
+структурного и параметрического синтеза, каждая из которых решается разными 
+методами. В работе~\cite{B02} рассмотрена плоская стационарная задача Дирихле, 
+когда на границе тела заданы перемещения и температура. Задача сводится к 
+системе интегральных уравнений, и, если граница принадлежит классу Ляпунова, 
+то система разрешима по Фредгольму. В работе~\cite{B03} рассмотрена осесимметричная 
+задача по определению напряжений в~полом цилиндрическом пуансоне при горячем 
+деформировании заготовок. Построению матриц Грина трехмерной теории 
+термоупругости посвящена работа~\cite{B04}. Представлены интегральный и 
+полиномиальный подходы формирования матриц Грина как часть 
+гранично-элементного моделирования, а также подход на основе двойных рядов 
+Фурье. Ряд работ посвящен исследованию задач термоупругости для слоистых 
+анизотропных материалов, например, в~работе~\cite{B05} представлена неклассическая 
+модель связанной задачи термоупругого деформирования слоистых анизотропных 
+оболочек и пластин. В пространстве изображений по Лапласу строится 
+пространственный функционал, который, с учетом допущений, удалось свести к 
+двумерному и вывести из него корректные дифференциальные уравнения и 
+связанные краевые условия. В работе~\cite{B06} представлен метод отсчетных 
+поверхностей для анализа стационарных задач термоупругости для слоистых 
+анизотропных пластин, подвергающихся термической нагрузке. В работе~\cite{B07} 
+методом граничных элементов рассматривается трехмерная линейная 
+математическая теория термоупругости. Выписаны граничные интегральные 
+уравнения и гранично-элементная схема их решения. В работе~\cite{B08} исследуется 
+влияние скачкообразного изменения температуры на напряженное состояние 
+многосвязной анизотропной бесконечной пластинки. Приближенные решения 
+получены численными методами. В работе~\cite{B09} рассмотрен термоупругий 
+осесимметричный изгиб кольцевых пластин, изготовленных из 
+разносопротивляющихся ортотропных материалов, обладающих к тому же 
+цилиндрической анизотропией. Приведена система сложных неоднородных 
+уравнений и результаты их исследования с помощью метода конечных разностей.
+
+В работе~\cite{B10} представлено решение задачи по определению осесимметричного 
+термоупругого поля для трансверсально-изотропного тела вращения средствами 
+метода граничных состояний. Решение строилось на основе плоской задачи 
+теории термоупругости. Приведено решение для ступенчатого кругового 
+цилиндра, находящегося в установившемся поле температур, осесимметричном 
+относительно оси вращения. А в работе~\cite{B11} осесимметричная задача 
+термоупругости решена в совокупности с задачей эластостатики и с задачей по 
+определению упругого поля от действия массовых сил. Общее решение 
+представляет собой суммы решений частных задач.
+
+Целью настоящей работы является развитие аналитического метода определения 
+напряженно-деформированного состояния, предложенного в работе~\cite{B10}, на класс 
+неосесимметричных термоупругих задач для анизотропных тел вращения.
+
+\section{Постановка задачи}
+
+Рассматривается термоупругое равновесие трансверсально-изотропного тела, 
+ограниченного одной или несколькими коаксиальными поверхностями вращения 
+(рис. \ref{fig1}) и находящийся под действием неосесимметричного поля установившихся 
+температур $T$, заданных по циклическому закону. Ось анизотропии 
+трансверсально-изотропного тела совпадает с геометрической осью вращения 
+$z$. Принята цилиндрическая система координат. Массовые силы отсутствуют. 
+Поверхность тела свободна от усилий и ограничений кинематического характера. 
+Область тела не имеет вырезов и пустот. Материал однороден.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.22\textwidth]{ivanychev1}
+\caption{Трансверсально-изотропное тело вращения}
+\captionf{Transversally isotropic body of rotation}
+\label{fig1}
+\end{figure}
+
+Задача состоит в определении напряженно-деформированного состояния, 
+возникающего в~теле, под действием заданного поля температур.
+
+\section{Дифференциальные и интегральные соотношения для анизотропной среды}
+
+Дифференциальные уравнение равновесия при отсутствии объемных сил~\cite{B12}
+\[
+\frac{\partial \tau_{zr} }{\partial z}+\frac{\partial \sigma_{r} 
+}{\partial r}+\frac{1}{r}\frac{\partial \tau_{r\theta } }{\partial \theta 
+}+\frac{\sigma_{r} -\sigma_{\theta } }{r}=0;
+\]
+\begin{equation}
+\label{eq1}
+\frac{\partial \tau_{z\theta } }{\partial z}+\frac{\partial \tau_{r\theta 
+} }{\partial r}+\frac{1}{r}\frac{\partial \sigma_{\theta } }{\partial 
+\theta }+2\frac{\tau_{r\theta } }{r}=0;
+\end{equation}
+\[
+\frac{\partial \sigma_{z} }{\partial z}+\frac{\partial \tau_{zr} 
+}{\partial r}+\frac{1}{r}\frac{\partial \tau_{z\theta } }{\partial \theta 
+}+\frac{\tau_{zr} }{r}=0.
+\]
+Соотношения Коши~\cite{B12}
+\begin{equation}
+\label{eq2}
+\varepsilon_{r} =\frac{\partial u}{\partial r};
+\quad
+\varepsilon_{z} =\frac{\partial w}{\partial z};
+\quad
+\varepsilon_{\theta } =\frac{1}{r}\frac{\partial v}{\partial \theta 
+}+\frac{u}{r};
+\end{equation}
+\[
+\gamma_{zr} =\frac{\partial w}{\partial r}+\frac{\partial u}{\partial z};
+\quad
+\gamma_{r\theta } =\frac{1}{r}\frac{\partial u}{\partial \theta 
+}+\frac{\partial v}{\partial r}-\frac{v}{r};
+\quad
+\gamma_{z\theta } =\frac{\partial w}{\partial z}+\frac{1}{r}\frac{\partial 
+w}{\partial \theta }.
+\]
+Уравнения совместности деформаций~\cite{B13}
+\[
+\frac{1}{r^{2}}\frac{\partial }{\partial r}\left(r^{2}\frac{\partial \varepsilon 
+_{\theta } }{\partial r}\right)+\frac{1}{r^{2}}\frac{\partial^{2}\varepsilon 
+_{rr} }{\partial \theta^{2}}-\frac{1}{r}\frac{\partial \varepsilon_{r} 
+}{\partial r}-\frac{2}{r^{2}}\frac{\partial }{\partial r}\left(r\frac{\partial 
+\varepsilon_{r\theta } }{\partial \theta }\right)=0;
+\]
+\[
+\frac{1}{r^{2}}\frac{\partial }{\partial r}\left(r\frac{\partial \varepsilon 
+_{z\theta } }{\partial \theta }\right)+\frac{1}{r}\frac{\partial^{2}\varepsilon 
+_{r\theta } }{\partial \theta \partial z}-\frac{1}{r^{2}}\frac{\partial 
+^{2}\varepsilon_{zr} }{\partial \theta^{2}}-\frac{1}{r}\frac{\partial 
+}{\partial r}\left(r\frac{\partial \varepsilon_{\theta \theta } }{\partial 
+z}\right)+\frac{1}{r}\frac{\partial \varepsilon_{rr} }{\partial z}=0;
+\]
+\begin{equation}
+\label{eq3}
+-\frac{\partial }{\partial r}\left(\frac{1}{r}\frac{\partial (r\varepsilon 
+_{z\theta } )}{\partial r}\right)+\frac{1}{r^{2}}\frac{\partial }{\partial 
+r}(r^{2}\frac{\partial \varepsilon_{r\theta } }{\partial z})+\frac{\partial 
+}{\partial r}\left(\frac{1}{r}\frac{\partial \varepsilon_{zr} }{\partial \theta 
+}\right)-\frac{1}{r}\frac{\partial^{2}\varepsilon_{rr} }{\partial \theta \partial z}=0;
+\end{equation}
+\[
+\frac{1}{r^{2}}\frac{\partial^{2}\varepsilon_{zz} }{\partial \theta 
+^{2}}+\frac{1}{r}\frac{\partial \varepsilon_{zz} }{\partial 
+r}+\frac{\partial^{2}\varepsilon_{\theta \theta } }{\partial 
+z^{2}}-\frac{2}{r}\frac{\partial^{2}\varepsilon_{z\theta } }{\partial 
+\theta \,\partial z}-\frac{2}{r}\frac{\partial \varepsilon_{zr} }{\partial 
+z}=0;
+\]
+\[
+\frac{1}{r}\frac{\partial^{2}\varepsilon_{zr} }{\partial \theta \partial 
+z}+r\frac{\partial }{\partial r}\left(\frac{1}{r}\frac{\partial \varepsilon 
+_{z\theta } }{\partial z}\right)-\frac{\partial^{2}\varepsilon_{r\theta } 
+}{\partial z^{2}}-\frac{\partial }{\partial r}\left(\frac{1}{r}\frac{\partial 
+\varepsilon_{zz} }{\partial \theta }\right)=0;
+\]
+\[
+\frac{\partial^{2}\varepsilon_{rr} }{\partial z^{2}}+\frac{\partial 
+^{2}\varepsilon_{zz} }{\partial r^{2}}-2\frac{\partial^{2}\varepsilon 
+_{zr} }{\partial r\,\partial z}=0.
+\]
+Обобщенный закон Гука~\cite{B12}
+\[
+\varepsilon_{r} =\frac{1}{E_{r} }(\sigma_{r} -\nu_{r} \sigma_{\theta } 
+)-\frac{\nu_{z} }{E_{z} }\sigma_{z} +\alpha_{r} T;
+\]
+\begin{equation}
+\label{eq4}
+\varepsilon_{z} =\frac{1}{E_{z} }\left[ {\sigma_{z} -\nu_{z} (\sigma_{r} 
++\sigma_{\theta } )} \right]+\alpha_{z} T;
+\end{equation}
+\[
+\varepsilon_{\theta } =\frac{1}{E_{r} }(\sigma_{\theta } -\nu_{r} \sigma 
+_{r} )-\frac{\nu_{z} }{E_{z} }\sigma_{z} +\alpha_{r} T;
+\]
+\[
+\gamma_{zr} =\frac{1}{G_{z} }\tau_{zr} ;
+\quad
+\gamma_{z\theta } =\frac{1}{G_{z} }\tau_{z\theta } ;
+\quad
+\gamma_{r\theta } =\frac{1}{G_{r} }\tau_{r\theta } =\frac{2(1+\nu_{r} 
+)}{E_{r} }\tau_{r\theta } .
+\]
+Уравнение теплопроводности~\cite{B12}
+\begin{equation}
+\label{eq5}
+\frac{k_{r} }{k_{z} }\frac{\partial^{2}T}{\partial z^{2}}+\frac{\partial 
+^{2}T}{\partial r^{2}}+\frac{1}{r}\frac{\partial T}{\partial r}=0.
+\end{equation}
+Здесь: $u$, $v$, $w$ --- компоненты вектора перемещения вдоль осей $r,\theta ,z$ 
+соответственно; $\varepsilon_{r} $, $\varepsilon_{\theta } $, $\varepsilon 
+_{z} $, $\gamma_{r\theta } $, $\gamma_{zr} $, $\gamma_{z\theta } $~--- 
+компоненты тензора деформаций; $\sigma_{r} $, $\sigma_{\theta } $, $\sigma 
+_{z} $, $\tau_{r\theta } $, $\tau_{zr} $, $\tau_{z\theta } $~--- 
+компоненты тензора напряжений; $E_{z} $ и $E_{r} $~--- модули упругости 
+соответственно в направлении оси $z$ и~в~плоскости изотропии; $\nu_{z} $~--- 
+коэффициент Пуассона, характеризующий сжатие вдоль оси $r$ при растяжении вдоль 
+оси $z$; $\nu_{r} $~--- коэффициент Пуассона, характеризующий поперечное сжатие 
+в плоскости изотропии при растяжении в этой же плоскости; $G_{r} $ и $G_{z} 
+$~--- модули сдвига в плоскости изотропии и перпендикулярной к ней; $k_{z} $ 
+и $k_{r} $~--- коэффициенты теплопроводности в направлении оси симметрии и 
+перпендикулярно к ней; $\alpha_{z} $ и $\alpha_{r} $~--- коэффициентов 
+температурного расширения в направлении осей $z$ и $r$ соответственно.
+
+\section{Метод решения}
+
+В работе~\cite{B12} методом интегральных наложений установлена зависимость между 
+пространственным напряженно-деформированным состоянием упругого 
+трансверсально-изотропного тела вращения и некоторыми вспомогательными 
+двумерными состояниями, компоненты которого зависят от двух координат $z$ и $y$ 
+(переменных). Ось $\eta $ перпендикулярна плоскости $zy$. В качестве плоских 
+вспомогательных состояний используется плоская деформация ${\rm {\bf 
+u}}^{pl}=\{u_{y}^{pl} ,u_{\eta }^{pl} ,u_{z}^{pl} \}$, возникающая в 
+бесконечных цилиндрах, имеющих в каждой точке плоскость упругой симметрии, 
+параллельную плоскости $zy$ (направление $\eta$).
+
+Переход к пространственному состоянию в цилиндрических координатах 
+осуществляется по зависимостям
+\[
+u_{n} =\frac{1}{2\pi }\left(\int\limits_0^\pi {\left(u_{y}^{pl} +u_{\eta }^{pl} \right)\cos 
+[(n-1)\beta ]\d\beta } +\int\limits_0^\pi {\left(u_{y}^{pl} -u_{\eta }^{pl} \right)\cos 
+[(n+1)\beta ]\d\beta } \right);
+\]
+\begin{equation}
+\label{eq6}
+v_{n} =\frac{1}{2\pi }\left(\int\limits_0^\pi {\left(u_{y}^{pl} +u_{\eta }^{pl} \right)\cos 
+[(n-1)\beta ]\d\beta } -\int\limits_0^\pi {\left(u_{y}^{pl} -u_{\eta }^{pl} \right)\cos 
+[(n+1)\beta ]\d\beta } \right);
+\end{equation}
+\[
+w_{n} =\frac{1}{\pi }\int\limits_0^\pi {u_{z}^{pl} \cos (n\beta )\d\beta } ;
+\quad
+y=r\cos (\beta );
+\]
+\[
+u=\sum\limits_{n=a}^b {[u_{n} \cos (n\theta )+u_{n} \sin (n\theta )]} ;
+\]
+\begin{equation}
+\label{eq7}
+v=\sum\limits_{n=a}^b {[-v_{n} \sin (n\theta )+v_{n} \cos (n\theta )]} ;
+\end{equation}
+\[
+w=\sum\limits_{n=а}^b {[w_{n} \cos (n\theta )+w_{n} \sin (n\theta )]} .
+\]
+Деформации вычисляются через соотношения Коши (\ref{eq2}), а напряжения через закон 
+Гука (\ref{eq4}).
+
+Установившееся температурное поле $T^{pl}(z, y)$ плоского вспомогательного 
+состояния с отсутствующими внутри источниками тепла удовлетворяет уравнению 
+теплопроводности~\cite{B12}
+\[
+\left( {k_{z} \frac{\partial^{2}}{\partial z^{2}}+k_{r} \frac{\partial 
+^{2}}{\partial y^{2}}} \right)T^{pl}(z, y)=0,
+\]
+где:
+\[
+T^{pl} =\frac{g_{0} }{E_{z} }\Re[\phi_{0}^{'} \left( {\varsigma_{0} } 
+\right)],
+\quad
+\varsigma_{0} =z/\gamma_{0} +iy,
+\quad
+\gamma_{0} =\sqrt {k_{z} /z_{r} } ,
+\]
+\[
+g_{0} =\frac{(E_{z} -\nu_{z}^{2} E_{r} )(\gamma_{1}^{2} -\gamma_{0}^{2} 
+)(\gamma_{2}^{2} -\gamma_{0}^{2} )}{\gamma_{0}^{2} (\alpha_{z} E_{z} 
++\alpha_{r} \nu_{z} E_{r} )-\alpha_{r} E_{z} (1+\nu_{r} )}.
+\]
+Перемещения и напряжения, соответствующие температурному полю~\cite{B12}
+\[
+u_{z}^{pl} =\Re[p_{0} \phi_{0} \left( {\varsigma_{0} } \right)];
+\quad
+u_{y}^{pl} =\Re[iq_{0} \phi_{0} \left( {\varsigma_{0} } \right)];
+\quad
+u_{\eta }^{pl} =0;
+\]
+\begin{equation}
+\label{eq8}
+\sigma_{z}^{pl} =-\Re[\gamma_{0}^{2} \phi_{0}^{'} \left( {\varsigma_{0} } 
+\right)];
+\quad
+\sigma_{y}^{pl} =\Re[\phi_{0}^{'} \left( {\varsigma_{0} } \right)];
+\end{equation}
+\[
+\sigma_{zy}^{pl} =-\Re[\gamma_{0} \phi_{0}^{'} \left( {\varsigma_{0} } 
+\right)];
+\quad
+\sigma_{\eta }^{pl} =\Re[\left( {1-\varepsilon_{0} } \right)\phi_{0}^{'} 
+\left( {\varsigma_{0} } \right)],
+\]
+где $p_{0} $, $q_{0} $, $\varepsilon_{0} $~--- постоянные, зависящие от 
+упругих констант и коэффициентов температурного расширения $\alpha_{z} $ и 
+$\alpha_{r} $, $\phi_{0} \left( {\varsigma_{0} } \right)$~--- некоторая 
+аналитическая функция переменной $\varsigma_{0} $.
+
+Переход от плоских температурных состояний к пространственным производится 
+по зависимостям (\ref{eq6}) и (\ref{eq7}).
+
+Определение упругого состояния анизотропного тела осуществляется средствами, 
+схожими со средствами метода граничных состояний (МГС)~\cite{B14}. В качестве 
+базиса в пространстве внутренних состояний $\Xi $ принимаются наборы
+\[
+\Xi =\left\{ {\xi_{1} , \xi_{2} , \xi_{3} ,\ldots,\xi_{k} ,\ldots} 
+\right\};
+\quad
+\xi_{k} =\{u_{i}^{(k)} ,\varepsilon_{ij}^{(k)} ,\sigma_{ij}^{(k)} 
+,T_{i}^{(k)} \}.
+\]
+Базис пространства $\Xi $ можно сконструировать, придавая функции $\phi_{0} 
+$ в (\ref{eq8}) следующие значения:
+\[
+\phi_{0} =\varsigma_{0}^{n} ,
+\quad
+n=1, 2, 3,\ldots.
+\]
+Ортонормирование базиса пространства $\Xi $ осуществляется по разработанному 
+рекурсивно-матричному алгоритму ортогонализации~\cite{B15}, где в качестве 
+перекрестных скалярных произведений принимаются (например, для 1-го и 2-го 
+состояния)
+\[
+(\xi_{1} ,\xi_{2} )=\int\limits_V {T_{1} } T_{2} \d V,
+\]
+После восстановления поля температур, удовлетворяющего уравнению 
+теплопроводности (\ref{eq5}), определяются вектор перемещения, тензоры деформаций и 
+напряжений, соответствующих температурному состоянию. Каждому базисному 
+вектору $T_{k} $ соответствуют вектор перемещения и тензоры деформаций и 
+напряжений, в совокупности образующие внутреннее состояние от действия поля 
+температур $\xi_{k} $.
+
+Решение представляет собой ряд Фурье
+\begin{equation}
+\label{eq9}
+\xi_{0} =\sum\limits_{k=1}^\infty {c_{k} \xi_{k} } ;
+\quad
+c_{k} =\int\limits_V {T_{k} } T\d V,
+\end{equation}
+где $T_{k} $~--- температура в базисном элементе $\xi_{k} $, $T$~--- 
+заданное поле температур.
+
+В развернутом виде:
+\begin{equation}
+\label{eq10}
+u_{i} =\sum\limits_{k=1}^\infty {c_{k} u_{i}^{(k)} } ;
+\quad
+\varepsilon_{ij} =\sum\limits_{k=1}^\infty {c_{k} \varepsilon_{ij}^{(k)}} ;
+\quad
+\sigma_{ij} =\sum\limits_{k=1}^\infty {c_{k} \sigma_{ij}^{(k)} } ;
+\quad
+Т=\sum\limits_{k=1}^\infty {c_{k} Т^{(k)} } .
+\end{equation}
+
+\section{Решение задачи}
+
+Рассмотрим круговой в плане цилиндр из гипотетического 
+трансверсально"=изотропного материала, по свойствам схожего с алевролитом~\cite{B16}. Задача решается в обезразмеренном виде; упругие и термомеханические 
+характеристики материала, область тела и заданная функция температуры 
+подлежат процедуре обезразмеривания~\cite{B17}. После процедуры обезразмеривания 
+параметров задачи, упругие характеристики материала: $E_{z} =6,21$; $E_{r} 
+=5,68$; $G_{r} =2,29$; $G_{z} =2,55$; $\nu_{z} =0,22$; $\nu_{r} =0,24$; 
+область цилиндра $V=\{ \left. (r,\theta ,z) \right| 0\leqslant r\leqslant 1,\ 0\leqslant 
+\theta \leqslant 2\pi ,\ -2\leqslant z\leqslant 2\}$; коэффициенты теплопроводности по осям 
+координат~\cite{B18}: $k_{z} =1,6$, $k_{r} =6,5$; коэффициенты температурного 
+расширения~\cite{B19}: $\alpha_{z} =6,7$, $\alpha_{r} =8,64$. Заданное поле 
+температур описывается функцией $T=r z^{4}\cos \theta $.
+
+При построении базиса внутренних состояний рекомендации, описанные в работах~\cite{B20} и~\cite{B21}, пригодны и для построения такового в задаче термоупругости. Так 
+как заданная температура зависит только от косинуса, то базис пространства 
+внутренних состояний будем формировать из левых частей выражений (\ref{eq7})
+\begin{equation}
+\label{eq11}
+u=\sum\limits_{n=a}^b {[u_{n} \cos (n\theta )]} ;
+\quad
+v=\sum\limits_{n=a}^b {[-v_{n} \sin (n\theta )]} ;
+\quad
+w=\sum\limits_{n=а}^b {[w_{n} \cos (n\theta )]} ,
+\end{equation}
+Причем, так как в заданном поле температур при угловой координате $n=1$, то в 
+выражениях (\ref{eq11}) $a=b=1$.
+
+После построения базиса внутренних состояний по соотношениям (\ref{eq6}) и (\ref{eq7}), 
+проводится ортонормирование его элементов, которое включает в себя 
+исключение линейно зависимых элементов, а также элементов для которых $T=0$. 
+Функции температуры в ортонормированных базисных элементах представлены в 
+табл.~\ref{tab1} (показано 4 элемента).
+
+\begin{table}
+\caption{Функции температуры в ортонормированных базисных элементах}
+\captiont{Temperature functions in orthonormal basis elements}
+\begin{tabularx}{\textwidth}{|P{28pt}|Y|}\hline
+& 
+$T$ \\
+\hline
+$\xi_{1} $& 
+$0,564 r\cos \theta $ \\
+\hline
+$\xi_{2} $& 
+$0,488 rz\cos \theta $ \\
+\hline
+$\xi_{3} $& 
+$(-0,611-0,029 r^{3}+0,473 rz^{2})\cos \theta $ \\
+\hline
+$\xi_{4} $& 
+$(-1,061 rz -0,086 r^{3}z+0,473 rz^{3})\cos \theta $ \\
+\hline
+\end{tabularx}
+\label{tab1}
+\end{table}
+
+Для решения задачи потребовался базис внутренних состояний из 50 элементов. 
+Коэффициенты Фурье (\ref{eq9}) $c_{k} =\{ 5,6718; 0; 7,2467; 0; 2,1447; 0, -0,0778; 0; -0,11246; 0; -0,0871\ldots \}$. Решение формируется рядами (\ref{eq10}).
+
+Хотя и косвенно, но исследовать полученные ряды на сходимость возможно, 
+используя <<насыщение>> (рис.~\ref{fig2}) суммы Бесселя (левая часть неравенства 
+Бесселя).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.42\textwidth]{ivanychev2}
+\caption{Сумма Бесселя}
+\captionf{Bessel sum}
+\label{fig2}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}{.37\textwidth}
+\includegraphics[width=\textwidth]{ivanychev3a}
+\caption{}
+\label{fig3a}
+\end{subfigure}
+\begin{subfigure}{.37\textwidth}
+\includegraphics[width=\textwidth]{ivanychev3b}
+\caption{}
+\label{fig3b}
+\end{subfigure}
+\begin{subfigure}{.37\textwidth}
+\includegraphics[width=\textwidth]{ivanychev3c}
+\caption{}
+\label{fig3c}
+\end{subfigure}
+\caption{Верификация решения}
+\captionf{Verification of solution}
+\label{fig3}
+\end{figure}
+
+Также оценка точности осуществляется верификацией заданной функции 
+температуры с~полученной в результате решения. На рис.~\ref{fig3} приведено 
+сравнение функций температур на границе тела. Заданная функция --- штриховая 
+линия; восстановленная --- сплошная линия.
+
+Анализ полученного решения показал, что максимальная относительная 
+погрешность составила 3,6~{\%} (средний график, координаты точки: 
+$r=0,5$, $\theta =0$, $z=2$). Точность решения задачи повышается при увеличении 
+числа используемых элементов базиса внутренних состояний.
+
+Компоненты термоупругого поля показаны на рис.~\ref{fig4} в виде изолиний. В силу симметрии компонент напряженно-деформированного состояния (НДС) относительно плоскости $z = 0$, показано меридианное сечение с~$\theta =0$ и $0\leqslant z\leqslant 2$. Значения на графике указаны в масштабе с~масштабным коэффициентом $\kappa $, т.е истинное значение показанной характеристики НДС равно значению на графике, умноженному на $\kappa $. Все характеристики показаны 
+для меридианного сечения с угловой координатой $\theta =0$.
+
+\begin{figure}[t!]
+\centering
+\begin{subfigure}{.39\textwidth}
+\includegraphics[width=\textwidth]{ivanychev4a}
+\caption{}
+\label{fig4a}
+\end{subfigure}
+\qquad
+\begin{subfigure}{.39\textwidth}
+\includegraphics[width=\textwidth]{ivanychev4b}
+\caption{}
+\label{fig4b}
+\end{subfigure}
+\begin{subfigure}{.39\textwidth}
+\includegraphics[width=\textwidth]{ivanychev4c}
+\caption{}
+\label{fig4c}
+\end{subfigure}
+\qquad
+\begin{subfigure}{.39\textwidth}
+\includegraphics[width=\textwidth]{ivanychev4d}
+\caption{}
+\label{fig4d}
+\end{subfigure}
+\caption{Изолинии: а) перемещение $u$, $\kappa =1$, б)~перемещение $w$, $\kappa 
+=1$, в)~напряжение $\sigma_{rr}$, $\kappa =10^{2}$, г)~напряжение $\sigma 
+_{zz}$, $\kappa =10^{2}$}
+\captionf{Isolines: а) displacement $u$, $\kappa =1$, б)~displacement $w$, $\kappa =1$, в)~stress $\sigma_{rr}$, $\kappa =10^{ 2}$, г)~stress $\sigma _{zz}$, $\kappa =10^{2}$}
+\label{fig4}
+\end{figure}
+
+\addtocounter{figure}{-1}
+\begin{figure}
+\centering
+\begin{subfigure}{.39\textwidth}
+\addtocounter{subfigure}{4}
+\includegraphics[width=\textwidth]{ivanychev4e}
+\caption{}
+\label{fig4e}
+\end{subfigure}
+\qquad
+\begin{subfigure}{.39\textwidth}
+\includegraphics[width=\textwidth]{ivanychev4f}
+\caption{}
+\label{fig4f}
+\end{subfigure}
+\caption{Изолинии: д)~напряжение $\tau_{rz}$, $\kappa =10^{2}$, е)~температура $T$, $\kappa =1$}
+\captionf{Isolines: д)~stress $\tau_{rz}$, $\kappa =10^{2}$, е)~temperature $T$, $\kappa =1$}
+\label{fig4}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}{.39\textwidth}
+\includegraphics[width=\textwidth]{ivanychev5a}
+\caption{}
+\label{fig5a}
+\end{subfigure}
+\qquad
+\begin{subfigure}{.39\textwidth}
+\includegraphics[width=\textwidth]{ivanychev5b}
+\caption{}
+\label{fig5b}
+\end{subfigure}
+\begin{subfigure}{.39\textwidth}
+\includegraphics[width=\textwidth]{ivanychev5c}
+\caption{}
+\label{fig5c}
+\end{subfigure}
+\qquad
+\begin{subfigure}{.39\textwidth}\centering
+\includegraphics[width=.5\textwidth]{ivanychev5d}
+\caption{}
+\label{fig5d}
+\end{subfigure}
+\caption{Изолинии: а)~перемещение $v$, $\kappa =1$, б)~напряжение $\sigma 
+_{r\theta }$, $\kappa =1$, в)~напряжение $\sigma_{z\theta }$, $\kappa 
+=10^{2}$, г)~контур деформированного состояния тела}
+\captionf{Isolines: а)~displacement $v$, $\kappa =1$, б)~stress $\sigma_{r\theta }$, $\kappa =1$, в)~stress $\sigma_{z\theta } $, $\kappa =10^{2}$, г)~contour of the deformed state of the body}
+\label{fig5}
+\end{figure}
+
+Компоненты упругого состояния $v$, $\tau_{r\theta } $, $\tau_{z\theta } $ 
+зависят от $\sin \theta $, поэтому их изолинии представим в сечении с 
+$\theta = \pi/2$ (рис.~\ref{fig5}). На рис.~\ref{fig5d} представлен контур 
+деформированного состояния тела.
+
+
+
+Полученные компоненты термоупругого поля строго удовлетворяют соотношениям 
+(\ref{eq1})--(\ref{eq5}).
+
+\section*{Выводы}
+
+Таким образом, в работе сформулирован подход решения задачи по определению 
+напряженно"=деформированного состояния анизотропного тела, вызванного 
+действием поля температур, заданных по циклическому закону. Компоненты 
+упругого поля зависят от всех трех координат и носят неосесимметричный 
+характер.
+
+Однако предложенная методика не является общей для любого класса 
+рассматриваемых областей (односвязных и многосвязных) и вида заданной 
+функции, описывающей температурное поле внутри тела; если эту 
+функцию возможно разложить на том или ином промежутке в~тригонометрический 
+ряд по косинусам или синусам, то, не исключая принцип независимости действия 
+сил, данная методика вполне применима.
+
+Полученное решение имеет аналитический вид, что позволяет легко проводить 
+анализ полученных характеристик напряженно"=деформированного состояния 
+деталей, применяемых в машиностроении.
+
+\begin{thebibliography}{21}
+\bibitem{B01}
+Ломазов, В.А., Ломазова, В.И., Построение математической модели при решении 
+задач термомеханики. \emph{Вестник Нижегородского университета им.~Н.И.~Лобачевского}, 2011, №~4(4), с.~1582--1584. \altbib{Lomazov, V.A., Lomazova V.I., Construction of a mathematical model for solving problems of thermomechanics. \emph{Vestnik Nizhegorodskogo universiteta im.~N.I.~Lobachevskogo = Vestnik of Lobachevsky University of Nizhni Novgorod}, 2011, no.~4(4), pp.~1582--1584. (in Russian)}
+
+\bibitem{B02}
+Богдан, Ю.А., Задача Дирихле в двумерной стационарной анизотропной теормоупругости. \emph{Вестник самарского государственного технического университета. Серия Физико-математические науки}, 2010, № 5(21), с.~64--71. \altbib{Bogdan, Yu.A., Dirichlet problem in two-dimensional stationary anisotropic theormoelasticity. \emph{Vestnik samarskogo gosudarstvennogo tekhnicheskogo universiteta. Seriya Fiziko-matematicheskiye nauki = Journal of Samara State Technical University, Ser. Physical and Mathematical Sciences)}, 2010, no.~5(21), pp.~64--71. (in Russian)}
+
+\bibitem{B03}
+Фатеев, В.И., Термоупругие напряжения в полом осесимметричном водоохлаждаемом пуансоне горячего деформирования. \emph{Известия Тульского государственного университета. Технические науки}, 2009, №~1-1, с.~98--104. \altbib{Fateyev, V.I., Thermoelastic stresses in a hollow axisymmetric water-cooled punch of hot deformation]. \emph{Izvestiya Tul'skogo gosudarstvennogo universiteta. Tekhnicheskiye nauki = Izvestiya Tula State University}, 2009, no. 1-1, pp. 98--104. (in Russian)}
+
+\bibitem{B04}
+Пазин, В.П., Сравнительный анализ подходов к построению матрицы Грина трехмерной теории термоупругости. \emph{Вестник Нижегородского университета им.~Н.И.~Лобачевского}, 2014, №~4(1), с.~250--253. \altbib{Pazin, V.P., Comparative analysis of approaches to constructing the Green's matrix of the three-dimensional theory of thermoelasticity. \emph{Vestnik Nizhegorodskogo universiteta im.~N.I.~Lobachevskogo = Vestnik of Lobachevsky University of Nizhni Novgorod}, 2014, no. 4(1), pp.~250--253. (in Russian)}
+
+\bibitem{B05}
+Андреев, А.Н., Математическая модель термоупругого деформирования слоистых композитных оболочек и пластин. \emph{Известия Алтайского государственного университета}, 2014, вып.~1, №~1(81), с.~19--21. \altbib{Andreyev, A.N., Mathematical model of thermoelastic deformation of layered composite shells and plates. \emph{Izvestiya Altayskogo gosudarstvennogo universiteta = Izvestiya of Altai State University}, 2014, iss. 1, no.~1(81), pp. 19--21. (in Russian)}
+
+\bibitem{B06}
+Kulikov, G.M., Mamontov, A.A., Three-dimensional thermoelastic analysis of laminated anisotropic plates. \emph{Вестник ТГТУ}, 2013, т.~19, №~4, с.~853--863. \altbib{Kulikov, G.M., Mamontov, A.A., Three-dimensional thermoelastic analysis of laminated anisotropic plates. \textit{Vestnik TGTU = Transactions of the TSTU}, 2013, vol.~19, no.~4, pp.~853--863. (in Russian)}
+
+\bibitem{B07}
+Ратаушко, Я.Ю., Анализ термоупругой динамики трехмерных тел методом граничных элементов. \emph{Вестник Нижегородского университета им.~Н.И.~Лобачевского}, 2011, №~4(4), с.~1736--1737. \altbib{Rataushko, Ya.Yu., Analysis of thermoelastic dynamics of three-dimensional bodies using the boundary element method. \emph{Vestnik Nizhegorodskogo universiteta im.~N.I.~Lobachevskogo = Vestnik of Lobachevsky University of Nizhni Novgorod}, 2011, no.~4(4), pp.~1736--1737. (in Russian)}
+
+\bibitem{B08}
+Глушанков, Е.С., Приближенное решение задачи термоупругости для многосвязной анизотропной пластинки при скачках температуры на контурах. \emph{Журнал теоретической и прикладной механики}, 2022, №~3(80), с.~3--13. \altbib{Glushankov, Ye.S., Approximate solution of the thermoelasticity problem for a multiply connected anisotropic plate with temperature jumps on the contours. \textit{Zhurnal teoreticheskoy i prikladnoy mekhaniki = Journal of Theoretical and Applied Mechanics}, 2022, no.~3(80), pp.~3--13. (in Russian)} \doi{10.24412/0136-4545-2022-3-5-13}
+
+\bibitem{B09}
+Самсоненко, Г.И., Трещёв, А.А., Термоупругий изгиб кольцевых пластин средней толщины из ортотропных разносопротивляющихся материалов. \emph{Известия ТулГУ. Технические науки}, 2012, вып.~1, с.~238--244. \altbib{Samsonenko, G.I., Treshchov A.A., Thermoelastic bending of medium-thick annular plates made of orthotropic materials of different resistance. \emph{Izvestiya Tula State University}, 2012, iss. 1, pp. 238--244. (in Russian)}
+
+\bibitem{B10}
+Иванычев, Д.А., Решение задач термоупругости для анизотропных тел вращения. \emph{Труды МАИ}, 2019, №~106, с.~1--19. \altbib{Ivanychev, D.A., Solution of thermoelasticity problems for anisotropic bodies of rotation. \emph{Trudy MAI}, 2019, no.~106, pp.~1--19. (in Russian)}
+
+\bibitem{B11}
+Ivanychev, D.A., Levina, E.Yu., Solution of thermoelasticity problems for solids of revolution with transversal isotropic feature and a body force. \emph{Journal of Physics: Conference Series}, 2019, vol.~1348, art.~012058. \doi{10.1088/1742-6596/1348/1/012058}
+
+\bibitem{B12}
+Александров, А.Я., Соловьев, Ю.И., \emph{Пространственные задачи теории упругости (применение методов теории функций комплексного переменного)}. Москва, Наука, 1978. \altbib{Aleksandrov, A.Ya., Solov'ev, Yu.I., \emph{Prostranstvenny`e zadachi teorii uprugosti (primenenie metodov teorii funkcij kompleksnogo peremennogo) = Spatial problems of the theory of elasticity (application of methods of the theory of functions of a complex variable)}. Moscow, Nauka, 1978. (in Russian)}
+
+\bibitem{B13}
+Лурье, А.И., \emph{Пространственные задачи теории упругости}. Москва, Госиздат 
+технико-теоретической литературы, 1955. \altbib{Lur'ye, A.I., \emph{Prostranstvennyye zadachi teorii uprugosti = Spatial problems of the theory of elasticity}. Moscow, Gosizdat tekhniko-teoreticheskoy literatury, 1955. (in Russian)}
+
+\bibitem{B14}
+Пеньков, В.Б., Пеньков, В.В., Метод граничных состояний для решения задач линейной механики. \emph{Дальневосточный математический журнал}, 2001, т.~2, №~2, с.~115--137. \altbib{Penkov, V.B., Penkov V.V., The boundary state method for solving linear mechanics problems. \emph{Dalnevostochnyj matematicheskij zhurnal = Far Eastern Mathematical Journal}, 2001, vol.~2, no.~2, pp.~115--137. (in Russian)}
+
+\bibitem{B15}
+Саталкина, Л.В., Наращивание базиса пространства состояний при жестких ограничениях к энергоемкости вычислений. В \emph{Сб. тезисов докладов научной конференции студентов и аспирантов Липецкого государственного технического университета}. Липецк, ЛГТУ, 2007, с.~130--131. \altbib{Satalkina, L.V., Building up the basis of the state space with hard constraints on the energy intensity of computations. In: \emph{Sbornik tezisov dokladov nauchnoj konferencii studentov i aspirantov Lipeczkogo gosudarstvennogo texnicheskogo universiteta = Collection of theses of reports of the scientific conference of students and graduate students of Lipetsk State Technical University}, Lipeczk, LGTU, 2007, pp.~130--131. (in Russian)}
+
+\bibitem{B16}
+Лехницкий, С.Г., \emph{Теория упругости анизотропного тела}. Москва, Наука, 1977. \altbib{Lekhnitskiy, S.G., \emph{Teoriya uprugosti anizotropnogo tela = Theory of elasticity of anisotropic body}. Moscow, Nauka, 1977. (in Russian)}
+
+\bibitem{B17}
+Левина, Л.В., Новикова, О.С., Пеньков, В.Б., Полнопараметрическое решение задачи теории упругости односвязного ограниченного тела. \emph{Вестник ЛГТУ}, 2016, №~2(28), с.~16--24. \altbib{Levina, L.V., Novikova, O.S., Penkov, V.B., Full-parameter solution of the problem of the theory of elasticity of a simply connected bounded body. \emph{Vestnik LGTU = Bulletin of Lipetsk State Technical University}, 2016, no.~2(28), pp.~16--24. (in Russian)}
+
+\bibitem{B18}
+Юдин, В.А., Королёв, А.В., Афанаскин, И.В., Вольпин, С.Г., \emph{Теплоёмкость и теплопроводность пород и флюидов баженовской свиты -- исходные данные для численного моделирования тепловых способов разработки}. Москва, ФГУ ФНЦ НИИСИ РАН, 2015. \altbib{Yudin, V.A., Korolyov, A.V., Afanaskin, I.V., Vol`pin, S.G., \emph{Teployomkost` i teploprovodnost` porod i flyuidov bazhenovskoj svity` -- isxodny`e danny`e dlya chislennogo modelirovaniya teplovy`x sposobov razrabotki = Heat capacity and thermal conductivity of rocks and fluids of the Bazhenov formation are the initial data for the numerical simulation of thermal methods of development}. Moscow, FGU FNCz NIISI RAN, 2015. (in Russian)}
+
+\bibitem{B19}
+Дортман, Н.Б. (под ред.), \emph{Физические свойства горных пород и полезных ископаемых (петрофизика). Справочник геофизика}. Москва, Недра, 1984. \altbib{Dortman, N.B. (ed.), \emph{Fizicheskiye svoystva gornykh porod i poleznykh iskopayemykh (petrofizika). Spravochnik geofizika = Physical properties of rocks and minerals (petrophysics). Geophysicist's Handbook}. Moscow, Nedra, 1984. (in Russian)}
+
+\bibitem{B20}
+Иванычев, Д.А., Решение неосесимметричной задачи эластостатики для 
+трансверсально-изотропного тела вращения. \emph{Вестник МГТУ им.~Н.Э.~Баумана. 
+Сер. Естественные науки}, 2022, №~2(101), с.~4--21. \altbib{Ivanychev, D.A., Solution of a non-axisymmetric elastostatics problem for a transversely isotropic body of rotation. \emph{Vestnik MGTU im.~N.E.~Baumana. Ser. Yestestvennyye nauki = Herald of the Bauman Moscow State Technical University. Series Natural Sciences}, 2022, no.~2(101), pp.~4--21. (in Russian)} \doi{10.18698/1812-3368-2022-2-4-21}
+
+\bibitem{B21}
+Иванычев, Д.А., Левина, Л.В., Определение неосесимметричных упругих полей в анизотропных телах вращения, вызванных действием объемных сил. \emph{Вестник МГТУ им.~Н.Э.~Баумана. Сер. Естественные науки}, 2022, №~4(103), с.~22--38. \altbib{Ivanychev, D.A., Levina, L.V. Determination of non-axisymmetric elastic fields in anisotropic bodies of rotation caused by the action of body forces. \emph{Vestnik MGTU im.~N.E.~Baumana. Ser. Yestestvennyye nauki = Herald of the Bauman Moscow State Technical University. Series Natural Sciences}, 2022, no.~3(103), pp.~22--38. (in Russian)} \doi{10.18698/1812-3368-2022-4-22-38}
+\end{thebibliography}
+\end{document}

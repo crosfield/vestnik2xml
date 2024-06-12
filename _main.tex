@@ -1,0 +1,82 @@
+% !TEX TS-program = pdflatexmk
+\documentclass{vestnik}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                                      %%%
+%%% WARNING! WORKS WITH --shell-escape   %%%
+%%%                                      %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\gdef\YEAR{2024} %Год
+\gdef\VOLUME{21} %Том
+\gdef\ISSUE{2} %Номер
+%\gdef\PART{1} %Часть
+
+\gdef\OJSISSUE{89} %Номер
+
+\gdef\PRESSDATE{??-06-2024} %Подписано в печать
+\gdef\OUTDATE{??-06-2024} %Вышло в свет
+\gdef\ORDERNO{????} %Номер заказа
+
+\def\mysplit#1-#2-#3.{\gdef\doiDay{#1}\gdef\doiMonth{#2}\gdef\doiYear{#3}}
+\def\doiSplit#1{\expandafter\mysplit#1.}
+
+\def\doiSplit{\PRESSDATE}
+
+%\usepackage[final]{vfinish}
+\usepackage{vfinish}
+
+\begin{document}
+
+%%%%% Математика
+\adda{abduragimov}
+\adda{kochergin}
+
+%%%%% Механика
+\adda{velikanov}
+\adda{ivanychev}
+\adda{khanazaryan}
+\adda{norkin}
+
+%%%%% Физика
+\adda{hammud}
+
+%%%%% ЦИКЛ КОМПИЛЯЦИИ ВСЕХ СТАТЕЙ
+%\runtexloop
+
+\input{_data/titul}
+\input{_data/editorialrus}
+\maketocru[1.01]
+\input{_data/editorialeng}
+\maketocen[1.01]
+
+\makepdfbody
+\makesortppl
+%\input{_data/pplrus}
+
+\input{_data/rulesrus}
+\input{_data/ruleseng}
+%\input{_data/tocyear}
+
+\emptypageifodd
+
+\input{_data/techdata}
+
+%\writepng
+%\writexml
+%\writedoixml
+
+%\immediate\write18{rm *.aux}
+%\immediate\write18{rm *.log}
+\immediate\write18{rm *.gz}
+\immediate\write18{rm *.fdb\string_latexmk}
+\immediate\write18{rm *.fls}
+\immediate\write18{rm *.lpc}
+\immediate\write18{rm *.out}
+\immediate\write18{rm *.upa}
+\immediate\write18{rm *.upb}
+\immediate\write18{vestnik2xml _main.tex}
+%\immediate\write18{rm *.xml}
+%\immediate\write18{cp \jobname.pdf \myjobname.pdf}
+
+\end{document}
