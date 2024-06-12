@@ -5,6 +5,7 @@ import argparse
 from pylatexenc.latex2text import LatexNodes2Text
 from pylatexenc.latexwalker import LatexCharsNode
 from XMLElement import XMLElement
+import pdfplumber
 
 def parse_command(latex_text, command):
     results = []
@@ -70,7 +71,7 @@ class CustomLatexNodes2Text(LatexNodes2Text):
         # Для всех остальных случаев использовать поведение по умолчанию
         return super().visit_latex_chars_node(node)
 
-def clean_latex(latex_text):
+def get_clean_latex(latex_text):
     # Заменяем _ и ^ на #### и @@@@ в математическом режиме
     outside_math_mode = re.split(r'\$.*?\$|\\\[.*?\\\]|\\begin{.*?}.*?\\end{.*?}', latex_text)
     inside_math_mode = re.findall(r'\$.*?\$|\\\[.*?\\\]|\\begin{.*?}.*?\\end{.*?}', latex_text)
@@ -100,11 +101,33 @@ def clean_latex(latex_text):
 
     result = source_text.replace('\u00A0', ' ')
     result = re.sub(r'(?<!\n)\n(?!\n)', ' ', result)  # Замена одиночных переводов строк на пробел
-    result = re.sub(r'\n{2,}', '\n', result)  # Замена двух и более подряд идущих символов пе��евода строки на один
+    result = re.sub(r'\n{2,}', '\n', result)  # Замена двух и более подряд идущих символов перевода строки на один
     result = re.sub(r'\n', ' ', result)
     result = re.sub(r'\s{2,}', ' ', result)
     result = result.strip()
     return result
+
+def convert_to_ranges(numbers):
+    if not numbers:
+        return ""
+
+    numbers.sort()
+    ranges = [[numbers[0]]]
+
+    for num in numbers[1:]:
+        if num == ranges[-1][-1] + 1:
+            ranges[-1].append(num)
+        else:
+            ranges.append([num])
+
+    range_strings = []
+    for r in ranges:
+        if len(r) == 1:
+            range_strings.append(str(r[0]))
+        else:
+            range_strings.append(f"{r[0]}-{r[-1]}")
+
+    return ",".join(range_strings)
 
 def get_clean_article(latex_text, filename):
     # Ищем начало основного текста статьи, учитывая возможный необязательный аргумент у \maketitle
@@ -131,15 +154,18 @@ def get_clean_article(latex_text, filename):
     for cite in re.findall(r'\\cite(\[.*?\])?{(.*?)}', article_text):
         optional_arg = cite[0]
         mandatory_arg = cite[1]
-        new_cite = '['
+        new_cite = ''
         for arg in mandatory_arg.split(','):
-            bibcite = re.search(r'\\bibcite{' + arg + r'}{(.*?)}', aux_text)
+            bibcite = re.search(r'\\bibcite\{' + arg + r'\}\{(.*?)\}', aux_text)
             if bibcite:
                 new_cite += bibcite.group(1) + ','
-        new_cite = new_cite[:-1] + ']'  # Удаляем последнюю запятую и добавляем закрывающую скобку
+        new_cite = new_cite[:-1]  # Удаляем последнюю запятую и добавляем закрывающую скобку
+        numbers = list(map(int, re.findall(r'\d+', new_cite)))
+        new_cite = convert_to_ranges(numbers)
+        new_cite = str(new_cite)
         if optional_arg:
             new_cite += optional_arg
-        article_text = article_text.replace('\\cite' + cite[0] + '{' + cite[1] + '}', new_cite)
+        article_text = article_text.replace('\\cite' + cite[0] + r'{' + cite[1] + r'}', '[' + new_cite + ']')
 
     # Обрабатываем каждую команду \ref и \eqref
     for command in ['ref', 'eqref']:
@@ -237,7 +263,7 @@ def parse_bibliography(text):
             source_text = re.sub(r'\\edn{(.*?)}', r'EDN: \1', source_text)
             source_text = re.sub(r'\\No', r'№', source_text)
 
-            source_text = clean_latex(source_text)
+            source_text = get_clean_latex(source_text)
 
             # Очищаем текст от UNICODE-символов типа неразрывного пробела
             source_text = source_text.replace('\u00A0', ' ')
@@ -289,6 +315,7 @@ def parse_and_save_results(content,filename):
             results[keyword_key] = [[keyword.strip() for keyword in temp_keywords.split(',')]]
     results['article'] = [get_clean_article(content,filename)]
     results['bibliography'] = parse_bibliography(content)
+    print("Обработан файл " + filename + ".tex")
     return results
 
 def get_page_numbers(filename):
@@ -343,7 +370,13 @@ def merge_files(file_list, output_filename, metadatas):
     issue.add_child(XMLElement("volume", text=VOLUME))
     issue.add_child(XMLElement("number", text=ISSUE))
     issue.add_child(XMLElement("dateUni", text=YEAR))
-    issue.add_child(XMLElement("pages", text="1-78"))
+    # Открываем PDF-файл
+    with pdfplumber.open(output_filename + '.pdf') as pdf:
+        # Получаем общее число страниц
+        total_pages = len(pdf.pages)
+
+    # Создаем элемент "pages" с общим числом страниц
+    issue.add_child(XMLElement("pages", text=f"1-{total_pages}"))
     issue.add_child(XMLElement("issTitle"))
 
     articles = XMLElement("articles")
@@ -465,7 +498,7 @@ def create_article_element(metadata, filename):
         try:
             # Создаем элементы для аффилиаций автора
             orgName_rus = XMLElement("orgName")
-            orgName_rus.text = clean_latex(metadata['authorrus_changed'][i - 1][
+            orgName_rus.text = get_clean_latex(metadata['authorrus_changed'][i - 1][
                                                2])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
             individInfo_rus.add_child(orgName_rus)
         except KeyError as e:
@@ -475,7 +508,7 @@ def create_article_element(metadata, filename):
 
         try:
             city_rus = XMLElement("town")
-            city_rus.text = clean_latex(metadata['authorrus_changed'][i - 1][
+            city_rus.text = get_clean_latex(metadata['authorrus_changed'][i - 1][
                                             3])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
             individInfo_rus.add_child(city_rus)
         except KeyError as e:
@@ -485,7 +518,7 @@ def create_article_element(metadata, filename):
 
         try:
             country_rus = XMLElement("country")
-            country_rus.text = clean_latex(metadata['authorrus_changed'][i - 1][
+            country_rus.text = get_clean_latex(metadata['authorrus_changed'][i - 1][
                                                4])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
             individInfo_rus.add_child(country_rus)
         except KeyError as e:
@@ -499,7 +532,7 @@ def create_article_element(metadata, filename):
         individInfo_rus.add_child(email)
 
         otherInfo = XMLElement("otherInfo")
-        otherInfo.text = clean_latex(
+        otherInfo.text = get_clean_latex(
             metadata['inforus'][i - 1][0])  # Предполагается, что inforus содержит один элемент для каждого автора
         individInfo_rus.add_child(otherInfo)
 
@@ -521,7 +554,7 @@ def create_article_element(metadata, filename):
         try:
             # Создаем элементы для аффилиаций автора
             orgName_eng = XMLElement("orgName")
-            orgName_eng.text = clean_latex(metadata['authoreng_changed'][i - 1][2])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
+            orgName_eng.text = get_clean_latex(metadata['authoreng_changed'][i - 1][2])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
             individInfo_eng.add_child(orgName_eng)
         except KeyError as e:
             print(f"Файл {filename}. Отсутствует поле для записи: {e}")
@@ -530,7 +563,7 @@ def create_article_element(metadata, filename):
 
         try:
             city_eng = XMLElement("town")
-            city_eng.text = clean_latex(metadata['authoreng_changed'][i - 1][3])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
+            city_eng.text = get_clean_latex(metadata['authoreng_changed'][i - 1][3])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
             individInfo_eng.add_child(city_eng)
         except KeyError as e:
             print(f"Файл {filename}. Отсутствует поле для записи: {e}")
@@ -539,7 +572,7 @@ def create_article_element(metadata, filename):
 
         try:
             country_eng = XMLElement("country")
-            country_eng.text = clean_latex(metadata['authoreng_changed'][i - 1][4])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
+            country_eng.text = get_clean_latex(metadata['authoreng_changed'][i - 1][4])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
             individInfo_eng.add_child(country_eng)
         except KeyError as e:
             print(f"Файл {filename}. Отсутствует поле для записи: {e}")
@@ -578,18 +611,18 @@ def create_article_element(metadata, filename):
 
         # Создаем элементы для аффилиаций рецензента
         orgName_rev = XMLElement("orgName")
-        orgName_rev.text = clean_latex(
+        orgName_rev.text = get_clean_latex(
             metadata['reviewer_changed'][0][
                 2])  # Предполагается, что reviewer содержит один элемент для рецензента
         individInfo_rev.add_child(orgName_rev)
 
         city_rev = XMLElement("town")
-        city_rev.text = clean_latex(metadata['reviewer_changed'][0][
-                                        3])  # Предполагается, что reviewer содержит один элемент дл�� рецензента
+        city_rev.text = get_clean_latex(metadata['reviewer_changed'][0][
+                                        3])  # Предполагается, что reviewer содержит один элемент для рецензента
         individInfo_rev.add_child(city_rev)
 
         country_rev = XMLElement("country")
-        country_rev.text = clean_latex(
+        country_rev.text = get_clean_latex(
             metadata['reviewer_changed'][0][
                 4])  # Предполагается, что reviewer содержит один элемент для рецензента
         individInfo_rev.add_child(country_rev)
@@ -600,7 +633,7 @@ def create_article_element(metadata, filename):
         individInfo_rev.add_child(email_rev)
 
         comment = XMLElement("comment")
-        comment.text = clean_latex(
+        comment.text = get_clean_latex(
             metadata['review'][0][0])  # Предполагается, что review содержит один элемент для рецензента
         individInfo_rev.add_child(comment)
 
@@ -635,12 +668,12 @@ def create_article_element(metadata, filename):
     abstracts = XMLElement("abstracts")
     abstract_rus = XMLElement("abstract", attributes={"lang": "RUS"})
     if metadata['annotationrus']:  # Проверяем, что список не пуст
-        abstract_rus.text = clean_latex(metadata['annotationrus'][0][0])
+        abstract_rus.text = get_clean_latex(metadata['annotationrus'][0][0])
     abstracts.add_child(abstract_rus)
 
     abstract_eng = XMLElement("abstract", attributes={"lang": "ENG"})
     if metadata['annotationeng']:  # Проверяем, что список не пуст
-        abstract_eng.text = clean_latex(metadata['annotationeng'][0][0])
+        abstract_eng.text = get_clean_latex(metadata['annotationeng'][0][0])
     abstracts.add_child(abstract_eng)
 
     article.add_child(abstracts)
@@ -705,7 +738,7 @@ def create_article_element(metadata, filename):
         fundings = XMLElement("fundings")
 
         funding_rus = XMLElement("funding", attributes={"lang": "RUS"})
-        funding_rus.text = clean_latex(
+        funding_rus.text = get_clean_latex(
             metadata['fundingrus'][0][
                 0])  # Предполагается, что fundingrus содержит один элемент для русского языка
         fundings.add_child(funding_rus)
@@ -725,6 +758,7 @@ def create_article_element(metadata, filename):
 
     article.add_child(dates)
 
+    print("Сохранено содержимое файла " + filename)
     return article
 
 PROGRAM_VERSION = "0.2.0"
@@ -737,13 +771,13 @@ def main():
     parser.add_argument('-V', '--verbose', action='store_true', help='verbose output')
     args = parser.parse_args()
 
+    print(f"vestnik2xml vesrsion {PROGRAM_VERSION}")
+
     # Проверяем, есть ли у файла расширение .tex
     filename = args.filename
     base_filename, extension = os.path.splitext(filename)
     if extension.lower() == '.tex':
         filename = base_filename  # Если есть, удаляем его
-
-    print(f"vestnik2xml vesrsion {PROGRAM_VERSION}")
 
     # Проверяем, что файл существует
     tex_filename = filename + '.tex'
@@ -751,8 +785,12 @@ def main():
         print(f"Файл {tex_filename} не найден")
         return
 
-    with open("_main.ref", 'r') as file:
+    with open(filename + ".ref", 'r') as file:
         content = file.read()
+
+    print("Анализируется содержимое файла " + filename + ".tex")
+
+    print('----------')
 
     global YEAR, VOLUME, ISSUE, PRESSDATE
     YEAR = re.search(r'\\YEAR{(.*?)}', content).group(1)
@@ -769,7 +807,8 @@ def main():
 
     # Преобразуем список списков в простой список
     adda_contents = [item[0] for item in adda_contents]
-    print(adda_contents)
+    print("Обнаружены файлы для обработки: " + ', '.join(adda_contents))
+
     metadata = process_files(adda_contents)
 
     # Если указан параметр --verbose, выводим все метаданные
@@ -782,11 +821,9 @@ def main():
                 for item in metadata[article_filename][key]:
                     print(item)
 
-    print('----------')
-
     merge_files(adda_contents, filename, metadata)
-
-    # print(metadata)
+    print('----------')
+    print("Сохранен файл " + filename + ".xml")
 
 if __name__ == "__main__":
     main()
