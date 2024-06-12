@@ -6,6 +6,7 @@ from pylatexenc.latex2text import LatexNodes2Text
 from pylatexenc.latexwalker import LatexCharsNode
 from XMLElement import XMLElement
 import pdfplumber
+from lxml import etree
 
 def parse_command(latex_text, command):
     results = []
@@ -387,41 +388,10 @@ def merge_files(file_list, output_filename, metadatas):
         metadata = metadatas[filename]
 
         # Создаем элемент article для каждого файла
-        article = create_article_element(metadata,filename)
+        article = create_article_element(articles,metadata,filename)
 
         # Добавляем элемент article в элемент articles
         articles.add_child(article)
-
-        # Создаем словарь для перевода названий рубрик
-        rubric_translation = {
-            "Механика": "Mechanics",
-            "Физика": "Physics",
-            "Математика": "Mathematics"
-        }
-
-        # Создаем секцию
-        section = XMLElement("section")
-
-        try:
-            # Создаем элемент secTitle для русского языка и добавляем его в секцию
-            secTitle_rus = XMLElement("secTitle", attributes={"lang": "RUS"})
-            if metadata['rubric']:  # Проверяем, что список не пуст
-                secTitle_rus.text = metadata['rubric'][0][0]
-            section.add_child(secTitle_rus)
-
-            # Создаем элемент secTitle для английского языка и добавляем его в секцию
-            secTitle_eng = XMLElement("secTitle", attributes={"lang": "ENG"})
-            if metadata['rubric']:  # Проверяем, что список не пуст
-                secTitle_eng.text = rubric_translation.get(metadata['rubric'][0][0], "")
-            section.add_child(secTitle_eng)
-
-            # Добавляем секцию в корневой э®лемент
-            articles.add_child(section)
-        except KeyError as e:
-            print(f"Отсутствует поле для записи: {e}")
-
-        except Exception as e:
-            print(f"Произошла ошибка: {e}")
 
     # Добавляем элемент articles в элемент issue
     issue.add_child(articles)
@@ -437,7 +407,38 @@ def merge_files(file_list, output_filename, metadatas):
         outfile.write("<?xml version='1.0' standalone='no' ?>\n")
         outfile.write(journal.to_xml())
 
-def create_article_element(metadata, filename):
+def create_article_element(articles, metadata, filename):
+    # Создаем словарь для перевода названий рубрик
+    rubric_translation = {
+        "Механика": "Mechanics",
+        "Физика": "Physics",
+        "Математика": "Mathematics"
+    }
+
+    # Создаем секцию
+    section = XMLElement("section")
+
+    try:
+        # Создаем элемент secTitle для русского языка и добавляем его в секцию
+        secTitle_rus = XMLElement("secTitle", attributes={"lang": "RUS"})
+        if metadata['rubric']:  # Проверяем, что список не пуст
+            secTitle_rus.text = metadata['rubric'][0][0]
+        section.add_child(secTitle_rus)
+
+        # Создаем элемент secTitle для английского языка и добавляем его в секцию
+        secTitle_eng = XMLElement("secTitle", attributes={"lang": "ENG"})
+        if metadata['rubric']:  # Проверяем, что список не пуст
+            secTitle_eng.text = rubric_translation.get(metadata['rubric'][0][0], "")
+        section.add_child(secTitle_eng)
+
+        # Добавляем секцию в корневой элемент
+        articles.add_child(section)
+
+    except KeyError as e:
+        print(f"Отсутствует поле для записи: {e}")
+    except Exception as e:
+        print(f"Произошла ошибка: {e}")
+
     # Создаем элемент article
     article = XMLElement("article")
 
@@ -509,22 +510,13 @@ def create_article_element(metadata, filename):
         try:
             city_rus = XMLElement("town")
             city_rus.text = get_clean_latex(metadata['authorrus_changed'][i - 1][
-                                            3])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
+                                            3] + ', ' + metadata['authorrus_changed'][i - 1][
+                                               4])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
             individInfo_rus.add_child(city_rus)
         except KeyError as e:
-            print(f"Файл {filename}. Отсутствует поле для записи: {e}")
+            print(f"Файл {filename}. Отсутствует поле 'city' для записи: {e}")
         except Exception as e:
-            print(f"Файл {filename}. Отсутствуют данные для записи поля city {e}")
-
-        try:
-            country_rus = XMLElement("country")
-            country_rus.text = get_clean_latex(metadata['authorrus_changed'][i - 1][
-                                               4])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
-            individInfo_rus.add_child(country_rus)
-        except KeyError as e:
-            print(f"Файл {filename}. Отсутствуют данные для записи поля country: {e}")
-        except Exception as e:
-            print(f"Файл {filename}. Отсутствуют данные для записи поля country: {e}")
+            print(f"Файл {filename}. Отсутствуют данные для записи поля 'town' {e}")
 
         email = XMLElement("email")
         email.text = metadata['email'][i - 1][
@@ -559,25 +551,16 @@ def create_article_element(metadata, filename):
         except KeyError as e:
             print(f"Файл {filename}. Отсутствует поле для записи: {e}")
         except Exception as e:
-            print(f"Файл {filename}. Отсутствуют данные для записи поля orgname: {e}")
+            print(f"Файл {filename}. Отсутствуют данные для записи поля 'orgName': {e}")
 
         try:
             city_eng = XMLElement("town")
-            city_eng.text = get_clean_latex(metadata['authoreng_changed'][i - 1][3])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
+            city_eng.text = get_clean_latex(metadata['authoreng_changed'][i - 1][3] + ', ' + metadata['authoreng_changed'][i - 1][4])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
             individInfo_eng.add_child(city_eng)
         except KeyError as e:
             print(f"Файл {filename}. Отсутствует поле для записи: {e}")
         except Exception as e:
-            print(f"Файл {filename}. Отсутствуют данные для записи поля town: {e}")
-
-        try:
-            country_eng = XMLElement("country")
-            country_eng.text = get_clean_latex(metadata['authoreng_changed'][i - 1][4])  # Предполагается, что authorrus_changed содержит один элемент для каждого автора
-            individInfo_eng.add_child(country_eng)
-        except KeyError as e:
-            print(f"Файл {filename}. Отсутствует поле для записи: {e}")
-        except Exception as e:
-            print(f"Файл {filename}. Отсутствуют данные для записи поля country: {e}")
+            print(f"Файл {filename}. Отсутствуют данные для записи поля 'city': {e}")
 
         author.add_child(individInfo_eng)
 
@@ -609,28 +592,38 @@ def create_article_element(metadata, filename):
             1]  # Предполагается, что reviewer содержит один элемент для рецензента
         individInfo_rev.add_child(initials_rev)
 
-        # Создаем элементы для аффилиаций рецензента
-        orgName_rev = XMLElement("orgName")
-        orgName_rev.text = get_clean_latex(
-            metadata['reviewer_changed'][0][
-                2])  # Предполагается, что reviewer содержит один элемент для рецензента
-        individInfo_rev.add_child(orgName_rev)
+        try:
+            # Создаем элементы для аффилиаций рецензента
+            orgName_rev = XMLElement("orgName")
+            orgName_rev.text = get_clean_latex(
+                metadata['reviewer_changed'][0][
+                    2])  # Предполагается, что reviewer содержит один элемент для рецензента
+            individInfo_rev.add_child(orgName_rev)
+        except KeyError as e:
+            print(f"Файл {filename}. Отсутствует поле для записи: {e}")
+        except Exception as e:
+            print(f"Файл {filename}. Отсутствуют данные для записи поля 'orgName': {e}")
 
-        city_rev = XMLElement("town")
-        city_rev.text = get_clean_latex(metadata['reviewer_changed'][0][
-                                        3])  # Предполагается, что reviewer содержит один элемент для рецензента
-        individInfo_rev.add_child(city_rev)
+        try:
+            city_rev = XMLElement("town")
+            city_rev.text = get_clean_latex(metadata['reviewer_changed'][0][
+                                            3] + ', ' + metadata['reviewer_changed'][0][
+                    4])  # Предполагается, что reviewer содержит один элемент для рецензента
+            individInfo_rev.add_child(city_rev)
+        except KeyError as e:
+            print(f"Файл {filename}. Отсутствует поле для записи: {e}")
+        except Exception as e:
+            print(f"Файл {filename}. Отсутствуют данные для записи поля 'city': {e}")
 
-        country_rev = XMLElement("country")
-        country_rev.text = get_clean_latex(
-            metadata['reviewer_changed'][0][
-                4])  # Предполагается, что reviewer содержит один элемент для рецензента
-        individInfo_rev.add_child(country_rev)
-
-        email_rev = XMLElement("email")
-        email_rev.text = metadata['emailrev'][0][
-            0]  # Предполагается, что emailrev содержит один элемент для рецензента
-        individInfo_rev.add_child(email_rev)
+        try:
+            email_rev = XMLElement("email")
+            email_rev.text = metadata['emailrev'][0][
+                0]  # Предполагается, что emailrev содержит один элемент для рецензента
+            individInfo_rev.add_child(email_rev)
+        except KeyError as e:
+            print(f"Файл {filename}. Отсутствует поле для записи: {e}")
+        except Exception as e:
+            print(f"Файл {filename}. Отсутствуют данные для записи поля 'emailrev': {e}")
 
         comment = XMLElement("comment")
         comment.text = get_clean_latex(
@@ -761,7 +754,7 @@ def create_article_element(metadata, filename):
     print("Сохранено содержимое файла " + filename)
     return article
 
-PROGRAM_VERSION = "0.2.0"
+PROGRAM_VERSION = "0.3.0"
 def main():
 
     # Создаем парсер аргументов
@@ -824,6 +817,21 @@ def main():
     merge_files(adda_contents, filename, metadata)
     print('----------')
     print("Сохранен файл " + filename + ".xml")
+
+    # Загрузка xsd схемы
+    xsd_file_name = r'journal.xsd'
+    schema_root = etree.parse(xsd_file_name)
+    schema = etree.XMLSchema(schema_root)
+
+    # Загрузка xml
+    xml_filename = filename + '.xml'
+    xml = etree.parse(xml_filename)
+
+    # Проверка
+    if not schema.validate(xml):
+        print(schema.error_log)
+    else:
+        print("XML файл успешно проверен по схеме", xsd_file_name)
 
 if __name__ == "__main__":
     main()
