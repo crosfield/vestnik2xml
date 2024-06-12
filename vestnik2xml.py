@@ -754,7 +754,7 @@ def create_article_element(articles, metadata, filename):
     print("Сохранено содержимое файла " + filename)
     return article
 
-PROGRAM_VERSION = "0.2.0"
+PROGRAM_VERSION = "0.3.0"
 def main():
 
     # Создаем парсер аргументов
