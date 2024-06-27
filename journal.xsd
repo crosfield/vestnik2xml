@@ -357,6 +357,21 @@
                                                     </xs:sequence>
                                                   </xs:complexType>
                                                 </xs:element>
+                                                <xs:element minOccurs="0" maxOccurs="1" name="country">
+                                                  <xs:annotation>
+                                                    <xs:documentation>
+															Элемент, значение которого содержит название страны организации, если стран несколько, то они указываются через точку с запятой. 
+															Внимание, это текстовое поле, теги(элементы) автоматически удаляются и остаётся только текст.
+														</xs:documentation>
+                                                  </xs:annotation>
+                                                  <xs:complexType mixed="true">
+                                                    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                                                      <xs:choice maxOccurs="unbounded">
+                                                        <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded" />
+                                                      </xs:choice>
+                                                    </xs:sequence>
+                                                  </xs:complexType>
+                                                </xs:element>
                                                 <xs:element minOccurs="0" maxOccurs="1" name="otherInfo">
                                                   <xs:annotation>
                                                     <xs:documentation>
@@ -1297,6 +1312,12 @@
         <xs:annotation>
           <xs:documentation xml:lang="ru">Ссылка на данные</xs:documentation>
           <xs:documentation xml:lang="en">Data</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="additionalMaterials">
+        <xs:annotation>
+          <xs:documentation xml:lang="ru">Ссылка на дополнительные материалы</xs:documentation>
+          <xs:documentation xml:lang="en">Additional Materials</xs:documentation>
         </xs:annotation>
       </xs:enumeration>
       <xs:enumeration value="other">

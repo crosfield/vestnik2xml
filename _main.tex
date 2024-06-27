@@ -1,4 +1,3 @@
-% !TEX TS-program = pdflatexmk
 \documentclass{vestnik}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -14,9 +13,9 @@
 
 \gdef\OJSISSUE{89} %Номер
 
-\gdef\PRESSDATE{??-06-2024} %Подписано в печать
-\gdef\OUTDATE{??-06-2024} %Вышло в свет
-\gdef\ORDERNO{????} %Номер заказа
+\gdef\PRESSDATE{28-06-2024} %Подписано в печать
+\gdef\OUTDATE{1-07-2024} %Вышло в свет
+\gdef\ORDERNO{5715} %Номер заказа
 
 \def\mysplit#1-#2-#3.{\gdef\doiDay{#1}\gdef\doiMonth{#2}\gdef\doiYear{#3}}
 \def\doiSplit#1{\expandafter\mysplit#1.}
@@ -37,12 +36,14 @@
 \adda{ivanychev}
 \adda{khanazaryan}
 \adda{norkin}
+\adda{telyatnikov}
 
 %%%%% Физика
+\adda{frants}
 \adda{hammud}
 
 %%%%% ЦИКЛ КОМПИЛЯЦИИ ВСЕХ СТАТЕЙ
-%\runtexloop
+\runtexloop
 
 \input{_data/titul}
 \input{_data/editorialrus}
