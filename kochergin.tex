@@ -1,9 +1,10 @@
 % !TEX TS-program = pdflatexmk
 \documentclass[press]{vestnik}
 
-\draft{1}
+\draft{3}
 
 \OJS{1060}
+\EDN{KCACPH}
 
 \rubric{Математика}
 
@@ -33,8 +34,8 @@
 \orcid{0000-0002-3583-8351}
 \spin{3618-6425}
 
-\affilrus{\orgname{Морской гидрофизический институт РАН}, \street{ул. Капитанская 2}, \city{Севастополь}, \postcode{299011}, \country{Россия}}
-\affileng{\orgname{Marine Hydrophysical Institute}, \street{Kapitanskaya str., 2}, \city{Sevastopol}, \postcode{299011}, \country{Russia}}
+\affilrus{\orgname{Морской гидрофизический институт РАН}, ул. Капитанская 2, \city{Севастополь}, 299011, \country{Россия}}
+\affileng{\orgname{Marine Hydrophysical Institute}, Kapitanskaya str., 2, \city{Sevastopol}, 299011, \country{Russia}}
 
 \affilrus{\orgname{Кубанский государственный университет}, ул. Ставропольская, 149, \city{Краснодар}, 350040, \country{Россия}}
 \affileng{\orgname{Kuban State University}, Stavropolskaya str., 149, \city{Krasnodar}, 350040, \country{Russia}}
@@ -44,13 +45,13 @@
 \emailrev{fedotov@instpts.ru}
 \affilrev{\orgname{Институт природно-технических систем}, \city{Севастополь}, \country{Россия}}
 
-\review{}
+\review{Содержание в пределах тематики журнала. Рецензируемая работа является продолжением исследований авторов в области численного моделирования гидродинамической циркуляции в замкнутом водоеме под действием ветра. Статья актуальна для студентов, аспирантов и научных работников океанологических и метеорологических специальностей,  занимающихся численным моделированием гидрофизических полей. Название точно отражает содержание. Аннотация ясная и адекватная, но в статье присутствует под заголовком "Реферат". Введение и заключение ясные и адекватные. Использованные методы соответствуют задаче. Результаты исследований ясные и четкие. Объем статьи достаточный. Стиль изложения хороший. Однако во введении и первом разделе статьи «Постановка задачи» полностью пропущена нумерация формул, что затрудняет чтение, в особенности вызывает недоумение строка на странице 4 «которая следует из ..., ... при». Нумерация формул начинается с числа  (11) следующего раздела. Требуется уточнить использование буквы «f» в формулах, в (12) на стр. 4 это обозначение вводится как вертикальный компонент ротора касательного напряжения ветра, ниже приводится в дискретной форме на расчетной сетке с двумя индексами, а на стр. 9 «f» уже с одним индексом 0 и 1, и по порядку величины и размерности единиц приближенно соответствует численному значению параметра Кориолиса и его меридиональному градиенту бета. Таблицы адекватны тексту. Аббревиатуры, формулы, единицы измерения соответствуют стандартам системы СГС. На странице 9 рукописи использование примененных единиц измерения физических величин представляется несколько арахаичным, возможно это было естественным во времена работы Стоммела. В настоящее время все-таки применяется система СИ, а сегодняшние школьники (да и многие студенты, пожалуй) уже не знают таких единиц силы как 1 дин и таких единиц энергии как 1 эрг. Необходимо уточнить требования редакции журнала в отношении единиц системы СГС. Библиография соответствует содержанию. Статья является продолжением работы этих же авторов совместно со Скляром С.Н. приблизительно 3-х - 4-х летней давности, применимость результатов  данной статьи, как и предыдущей, ограничена линеаризованной стационарной формулировкой задачи и не может претендовать на общность изложения проблемы. }
 
-\annotationrus{В работе для упрощенной трехмерной стационарной модели ветровых течений жидкости в водоеме рассматриваются различные аспекты вычисления компонент скорости. Представлено широкое параметрическое семейство разностных схем для интегрирования уравнения для функции тока, обладающее определенными свойствами при различных значениях параметров. Реализованы различные подходы при вычислении вертикальной скорости. Показано преимущество подхода использующего метод прогонки.   }
+\annotationrus{В работе для упрощенной трехмерной стационарной модели ветровых течений жидкости в~водоеме рассматриваются различные аспекты вычисления компонент скорости. Представлено широкое параметрическое семейство разностных схем для интегрирования уравнения для функции тока, обладающее определенными свойствами при различных значениях параметров. Реализованы различные подходы при вычислении вертикальной скорости. Показано преимущество подхода использующего метод прогонки.}
 
 \keywordsrus{модель ветровой циркуляции, метод прогонки, вертикальная скорость, численная дискретизация}
 
-\annotationeng{Qualitative calculation of the vertical component of the velocity does not lose its relevance even today. Basically, the results obtained are compared by calculations using other models and with a priori information about the dynamics of waters in the studied area. More accurate testing of calculation methods can be carried out if there is an accurate analytical solution to the problem. For these purposes, a three-dimensional analytical solution to the problem of wind circulation in a rectangular reservoir with a flat bottom is used for a given wind effect. Analytical expressions for the barotropic and additional three-dimensional components of the velocity field are obtained. The expression for the vertical component of the velocity field in this paper is used for comparison with the values calculated from the continuity equation. The vertical velocity was calculated in various ways: by standard integration of the vertical continuity equation and by the run-through method. In addition, in this work, when integrating the equation for the current function, a family of difference discretizations obtained for solving a similar class of problems is used. As the results of numerical experiments presented in the tables have shown, even with a sufficiently accurate solution of the problem for the current function, the calculation of the horizontal components of the total flow can lead to significant errors if the specifics of the problem are not taken into account. The algorithms used give a fairly good accuracy of reproducing the solution of the equation for the current function. On a fine grid, the error is hundredths of a percent of the norm used. The technique used in this work allows, within the framework of a single approach, to solve the problem for the current function and calculate the derivatives of this solution, which guarantees the accuracy of determining the horizontal components of the total flow. The paper shows that the use of the run-through method in calculating vertical velocity significantly improves the calculation results. The results of the work can be used in modeling dynamic processes in the sea.}
+\annotationeng{Qualitative calculation of the vertical component of the velocity does not lose its relevance even today. Basically, the results obtained are compared by calculations using other models and with a~priori information about the dynamics of waters in the studied area. More accurate testing of calculation methods can be carried out if there is an accurate analytical solution to the problem. For these purposes, a~three-dimensional analytical solution to the problem of wind circulation in a rectangular reservoir with a flat bottom is used for a given wind effect. Analytical expressions for the barotropic and additional three-dimensional components of the velocity field are obtained. The expression for the vertical component of the velocity field in this paper is used for comparison with the values calculated from the continuity equation. The vertical velocity was calculated in various ways: by standard integration of the vertical continuity equation and by the run-through method. In addition, in this work, when integrating the equation for the current function, a family of difference discretizations obtained for solving a similar class of problems is used. As the results of numerical experiments presented in the tables have shown, even with a sufficiently accurate solution of the problem for the current function, the calculation of the horizontal components of the total flow can lead to significant errors if the specifics of the problem are not taken into account. The algorithms used give a fairly good accuracy of reproducing the solution of the equation for the current function. On a fine grid, the error is hundredths of a percent of the norm used. The technique used in this work allows, within the framework of a single approach, to solve the problem for the current function and calculate the derivatives of this solution, which guarantees the accuracy of determining the horizontal components of the total flow. The paper shows that the use of the run-through method in calculating vertical velocity significantly improves the calculation results. The results of the work can be used in modeling dynamic processes in the sea.}
 
 \keywordseng{wind circulation model, run-through method, vertical velocity, numerical discretization}
 
@@ -59,9 +60,11 @@
 определяющих функционирование и эволюцию экосистем прибрежных зон Черного и 
 Азовского морей>> (шифр <<Прибрежные исследования>>).}
 
+\fundingeng{The work was carried out within the framework of the state assignment on the topic FNNN-2021-0005 ``Comprehensive interdisciplinary studies of oceanological processes that determine the functioning and evolution of ecosystems in the coastal zones of the Black and Azov Seas'' (code ``Coastal research'').}
+
 \date{27-05-2024}
-\revised{??-06-2024}
-\accepted{??-06-2024}
+\revised{11-06-2024}
+\accepted{21-06-2024}
 
 \maketitle
 
@@ -73,10 +76,10 @@
 динамике вод в исследуемом районе. Более точное тестирование методов расчета 
 можно осуществить при наличии точного аналитического решения задачи~\cite{B02}. Для 
 этих целей в работе~\cite{B03} построено трехмерное аналитическое решение задачи 
-ветровой циркуляции~\cite{B04,B05} в водоеме прямоугольной формы с плоским дном при 
+ветровой циркуляции~\cite{B04,B05} в~водоеме прямоугольной формы с плоским дном при 
 заданном ветровом воздействии. Получены аналитические выражения для 
-баротропной и добавочной трехмерной составляющей поля скорости. Выражение 
-для вертикальной компоненты поля скорости в данной работе используются для 
+баротропной и~добавочной трехмерной составляющей поля скорости. Выражение 
+для вертикальной компоненты поля скорости в~данной работе используются для 
 сравнения со значениями, вычисленными из уравнения неразрывности. 
 Вертикальная скорость вычислялась различными способами: стандартным 
 интегрированием уравнения неразрывности по вертикали и методом прогонки~\cite{B06}. 
@@ -88,7 +91,7 @@
 
 Рассмотрим решение для упрощенной трехмерной 
 стационарной модели ветровых течений жидкости в водоеме. Жидкость однородна 
-и в модели отсутствуют механизмы адвекции и горизонтальной диффузии. Такая 
+и~в~модели отсутствуют механизмы адвекции и~горизонтальной диффузии. Такая 
 модель относится к классу моделей Экмановского типа~\cite{B08}, которые 
 используются для описания картины течений в некотором приближении. Если для 
 таких моделей удается найти аналитические решения, то их использование для 
@@ -124,10 +127,10 @@ w}{\partial z}=0, \\
 \begin{equation}
 \label{eq4}
 \left\{ \begin{aligned}
- &\Bigl\{ z=0,\quad \left( x,y \right) \in {\mathop{\Omega}\limits^0}_0 \Bigr\}:\quad k\frac{\partial u}{\partial z}=-\tau_{x},\quad k\frac{\partial v}{\partial z}=-\tau_{y} ,\quad w=0; \\ 
- &\Bigl\{ z=H,\quad \left( x,y \right)\in {\mathop{\Omega}\limits^0}_0 \Bigr\}:\quad k\frac{\partial u}{\partial z}=-\tau_{x}^{b} ,\quad k\frac{\partial v}{\partial z}=-\tau_{y}^{b} ,\quad w=0; \\ 
- &\left\{ 0\leqslant z\leqslant H,\quad \left( {x,y} \right)\in \partial \Omega_{0}  
-\right\}:\quad U\cdot n_{x} +V\cdot n_{y} =0. 
+ &\Bigl\{ z=0,\ \left( x,y \right) \in {\mathop{\Omega}\limits^0}_0 \Bigr\}:\quad k\frac{\partial u}{\partial z}=-\tau_{x},\quad k\frac{\partial v}{\partial z}=-\tau_{y} ,\quad w=0; \\ 
+ &\Bigl\{ z=H,\ \left( x,y \right)\in {\mathop{\Omega}\limits^0}_0 \Bigr\}:\quad k\frac{\partial u}{\partial z}=-\tau_{x}^{b} ,\quad k\frac{\partial v}{\partial z}=-\tau_{y}^{b} ,\quad w=0; \\ 
+ &\left\{ 0\leqslant z\leqslant H,\ \left( {x,y} \right)\in \partial \Omega_{0}  
+\right\}:\quad U n_{x} +V n_{y} =0. 
  \end{aligned} \right.
 \end{equation}
 Горизонтальные компоненты полного потока определяются следующим образом: 
@@ -141,7 +144,7 @@ U(x,y)=\int\limits_0^H {u(x,y,z)\d z} ,\quad V(x,y)=\int\limits_0^H
 \label{eq6}
 \tau_{x}^{b} =\mu U,\quad \tau_{y}^{b} =\mu V,\quad \mu \equiv \const>0.
 \end{equation}
-Следуя работам Стоммела~\cite{B09,B10,B11}, имеем
+Следуя работам Стоммела~\cite{B09,B04,B05}, имеем
 \begin{equation}
 \label{eq7}
 \ell =\ell_{0} +\beta y,\quad k\equiv \const>0.
@@ -178,7 +181,7 @@ F_{1} =-F,\quad F_{2} =G_{1} =G_{2} =0,\quad l=0,\quad m=1.
 \section{Численный метод решения уравнения для функции тока}
 
 Численный метод решения с использованием проекционного варианта 
-интегро-интерполяционного метода предложен в работе~\cite{B12} и исследован в 
+интегро"=интерполяционного метода предложен в работе~\cite{B12} и исследован в 
 монографии~\cite{B13}. Этот подход позволяет получать разностные схемы для 
 численного интегрирования задачи и соответствующие формулы для аппроксимации 
 производных от самого решения. Последнее обычно используется  при вычисления 
@@ -229,8 +232,7 @@ i=\overline {1,n} ;\ j=\overline {1,k} ;\ \Delta x=\frac{r}{n-1};\  \Delta y=\fr
  \end{aligned} \right.
 \]
 Здесь $\theta_{i,j} $~--- набор параметров, который определяет аппроксимацию 
-производных $\cfrac{\partial \Psi }{\partial x}$, $\cfrac{\partial \Psi 
-}{\partial y}$ в узле сетки $\left( {x_{i} ,y_{j} } \right)$. Преобразуем 
+производных $\partial \Psi / \partial x$, $\partial \Psi/\partial y$ в узле сетки $\left( {x_{i} ,y_{j} } \right)$. Преобразуем 
 это семейство следующим образом:
 \begin{multline}
 \label{eq14}
@@ -256,7 +258,7 @@ _{i,j} +D_{y}^{-} \Psi_{i,j} } \right),
 +\frac{1+\theta }{2}\cdot \left[ {1+R\left( {\theta -1} \right)} 
 \right] D_{x}^{-} \Psi_{i,j} .
 \]
-Определим величину: $R\equiv \frac{\beta \Delta x}{2\mu }$. Последнюю задачу 
+Определим величину $R\equiv \beta \Delta x/(2\mu)$. Последнюю задачу 
 (\ref{eq14}) будем решать итерационно. Параметры $\theta_{i,j} $ являются функциями 
 от числа $R$. Функцию $\theta \left( R \right)$ можно выбирать в частности 
 следующим образом:
@@ -326,26 +328,26 @@ w\left( z \right)=-\int\limits_0^z \left( {\frac{\partial
 Уравнение (\ref{eq17}), следуя~\cite{B02}, можно записать со вторым порядком аппроксимации
 \begin{equation}
 \label{eq22}
-\frac{w_{k+1} -w_{k} }{\Delta z_{k+1/2} }=\frac{f_{k+1} +f_{k} }{2},
+\frac{w_{k+1} -w_{k} }{\Delta z_{k+1/2} }=\frac{\bar f_{k+1} + \bar f_{k} }{2},
 \quad
 \Delta z_{k+1/2} =z_{k+1} -z_{k} 
 \end{equation}
 или
 \begin{equation}
 \label{eq23}
-\frac{w_{k} -w_{k-1} }{\Delta z_{k-1/2} }=\frac{f_{k} +f_{k-1} }{2},
+\frac{w_{k} -w_{k-1} }{\Delta z_{k-1/2} }=\frac{\bar f_{k} + \bar f_{k-1} }{2},
 \quad
 \Delta z_{k-1/2} =z_{k} -z_{k-1} ,
 \end{equation}
 где
 \begin{equation}
 \label{eq24}
-f=S_{x} D_{x} u+S_{y} D_{y} v
+\bar f=S_{x} D_{x} u+S_{y} D_{y} v
 \end{equation}
 или 
 \begin{equation}
 \label{eq25}
-f=S_{y} D_{x} u+S_{x} D_{y} v.
+\bar f=S_{y} D_{x} u+S_{x} D_{y} v.
 \end{equation}
 В (\ref{eq24}) и (\ref{eq25}) используется следующие разностные операторы
 \begin{equation}
@@ -375,7 +377,7 @@ S_{y} \Phi\left( {x,y} \right)=\frac{\Phi\left( {x,y+\frac{\Delta y}{2}}
 \label{eq30}
 \frac{1}{\Delta z_{k+1/2} }w_{k+1} -\left( {\frac{1}{\Delta z_{k+1/2} 
 }+\frac{1}{\Delta z_{k-1/2} }} \right)w_{k} +\frac{1}{\Delta z_{k-1/2} 
-}w_{k-1} =\frac{1}{2}\left( {f_{k+1} -f_{k-1} } \right).
+}w_{k-1} =\frac{1}{2}\left( {\bar f_{k+1} -\bar f_{k-1} } \right).
 \end{equation}
 Используя (\ref{eq24}), получаем для $f$ центрально-разностную дискретизацию. 
 Отметим, что (\ref{eq30}) реализуется при помощи метода прогонки~\cite{B06} с учетом обоих 
@@ -398,7 +400,8 @@ NL\Phi=\frac{\sum\limits_\Omega {\left| {\Phi-\bar{{\Phi}}} \right|} \cdot 100\%
 где $\bar{{\Phi}}$~--- аналитическое значение, $\Phi$~--- оценка функции, получаемая 
 тем или иным способом.
 
-\section{Результаты численных экспериментов}
+\vspace{4mm}
+\section{Результаты численных экспериментов}\label{sec4}
 
 Для анализа результатов в качестве модельного объекта рассмотрим 
 прямоугольный водоем с плоским дном со следующими характерными размерами:
@@ -407,9 +410,9 @@ NL\Phi=\frac{\sum\limits_\Omega {\left| {\Phi-\bar{{\Phi}}} \right|} \cdot 100\%
  a=11\cdot 10^{7}~(\text{см})=1100~(\text{км}), \\ 
  b=5\cdot 10^{7}~(\text{см})\approx 500~(\text{км}), \\ 
  D=2\cdot 10^{5}~(\text{см})=2000~(\text{м}), \\ 
- R=0,02~\left( {\text{см}/\text{сек}} \right),\quad G=1~\left( \frac{\text{дин}}{\text{см}^2} \right), \\ 
+ R=0,02~\left( {\text{см}/\text{сек}} \right),\quad G=0,1~(\text{Па}), \\ 
  E=1~(\text{см}^2/\text{сек}), \quad \rho_{0} =1~(\text{г}/\text{cм}^3), \\ 
- f_{0} =10^{-4} \left( \frac{1}{\text{см}} \right),\quad f_{1} =2\cdot 10^{-13}\left( \frac{1}{\text{см}\cdot\text{сек}} \right). 
+ \ell_{0} =10^{-4} \left( \frac{1}{\text{сек}} \right),\quad \beta =2\cdot 10^{-13}\left( \frac{1}{\text{см}\cdot\text{сек}} \right). 
 \end{gathered}
 \]
 Выберем характерные масштабы
@@ -445,11 +448,11 @@ L=10^{7}~(\text{см}),\quad h=2\cdot 10^{5}~(\text{см}),\quad u_{0} =10~(\tex
 
 Расчеты показали, что наилучший результат в смысле норм (\ref{eq31}) при вычислении 
 функции тока имеем при использовании схемы Ильина. Сравнение значений норм 
-представлено в табл.\ref{tab1}.
+представлено в табл.~\ref{tab1}.
 
 \begin{table}
-\caption{Значения погрешностей для различных дискретизаций при вычислении 
-функции тока}
+\caption{Значения погрешностей для различных дискретизаций при вычислении функции тока}
+\captiont{Error values for different discretizations in calculating the current function}
 \begin{tabularx}{\textwidth}{|P{10mm}|Y|Y|Y|Y|Y|Y|}
 \hline
 & 
@@ -487,8 +490,8 @@ NL$\Psi $&
 заданных значениях входных параметров модели. 
 
 \begin{table}
-\caption{Значения погрешностей для различных дискретизаций при вычислении 
-скоростей}
+\caption{Значения погрешностей для различных дискретизаций при вычислении скоростей}
+\captiont{Error values for different discretizations in calculating velocities}
 \begin{tabularx}{\textwidth}{|P{10mm}|Y|Y|Y|}
 \hline
 & 
@@ -520,14 +523,9 @@ NLV&
 \label{tab2}
 \end{table}
 
-Численные эксперименты показали, что наихудший результат при расчете 
-вертикальной скорости из уравнения неразрывности (\ref{eq5}) получается с 
-использованием полных скоростей. Реализация формулы (\ref{eq21}) приводит к 
-некоторому улучшению результатов расчетов, которые представлены в табл.~\ref{tab3}. 
-
 \begin{table}
-\caption{Значения погрешностей для различных методов при вычислении 
-вертикальной скорости}
+\caption{Значения погрешностей для различных методов при вычислении вертикальной скорости}
+\captiont{Error values for different methods in calculating vertical speed}
 \begin{tabularx}{\textwidth}{|P{10mm}|Y|Y|Y|}
 \hline
 & 
@@ -536,18 +534,23 @@ NLV&
 Прогонка (\ref{eq30}) \\
 \hline
 NCW& 
-26.832& 
-26.476& 
-2.115 \\
+26,832& 
+26,476& 
+2,115 \\
 \hline
 NLW& 
-24.733& 
-22.330& 
-3.5452 \\
+24,733& 
+22,330& 
+3,5452 \\
 \hline
 \end{tabularx}
 \label{tab3}
 \end{table}
+
+Численные эксперименты показали, что наихудший результат при расчете 
+вертикальной скорости из уравнения неразрывности (\ref{eq5}) получается с 
+использованием полных скоростей. Реализация формулы (\ref{eq21}) приводит к 
+некоторому улучшению результатов расчетов, которые представлены в табл.~\ref{tab3}. 
 
 Использование алгоритма прогонки по формуле (\ref{eq30}) приводит к существенному 
 уменьшению указанных норм отклонений.
@@ -563,125 +566,61 @@ NLW&
 доли процента в используемой норме. Реализованная в данной работе методика 
 позволяет, в рамках единого подхода, решать задачу для функции тока и 
 вычислять производные от этого решения, что гарантирует точность определения 
-горизонтальных компонент полного потока. В работе показано, что 
+горизонтальных компонент полного потока. В~работе показано, что 
 использование метода прогонки при вычислении вертикальной скорости 
 существенно улучшает результаты расчетов. Результаты работы могут быть 
 использованы при моделировании динамических процессов в море. 
 
 \begin{thebibliography}{12}
 \bibitem{B01}
-Марчук Г.И., Саркисян А.С. Математическое моделирование циркуляции океана. М.: Наука, 1988.
+Марчук, Г.И., Саркисян, А.С., \emph{Математическое моделирование циркуляции океана}. Москва, Наука, 1988. \altbib{Marchuk, G.I., Sarkisyan, A.S., \emph{Matematicheskoe modelirovanie tsirkulyatsii okeana = Mathematical modeling of ocean circulation}. Moscow, Nauka, 1988. (in Russian)}
 
 \bibitem{B02}
-Еремеев В.Н., Кочергин В.П., Кочергин С.В., Скляр С.Н. Математическое моделирование гидродинамики глубоководных бассейнов. Севастополь, <<Экоси-гидрофизика>>, 2002.
+Еремеев, В.Н., Кочергин, В.П., Кочергин, С.В., Скляр, С.Н., \emph{Математическое моделирование гидродинамики глубоководных бассейнов}. Севастополь, <<Экоси-гидрофизика>>, 2002. \altbib{Eremeev, V.N., Kochergin, V.P., Kochergin, S.V., Sklyar, S.N., \emph{Matematicheskoe modelirovanie gidrodinamiki glubokovodnykh basseynov = Mathematical modeling of hydrodynamics of deep-water basins}. Sevastopol, <<Ekosi-gidrofizika>>, 2002. (in Russian)}
 
 \bibitem{B03}
-Кочергин В.С., Кочергин С. В., Скляр С.Н. Аналитическая тестовая задача ветровых течений. // Процессы в геосредах, №2(\ref{eq19}), 2019, С.198--203.
+Кочергин, В.С., Кочергин, С. В., Скляр, С.Н., Аналитическая тестовая задача ветровых течений. \emph{Процессы в геосредах}, №~2(20), 2019, с.~198--203. \altbib{Kochergin, V.S., Kochergin, S.V., Sklyar, S.N., Analytical test problem of wind currents. \emph{Protsessy v geosredakh = Processes in geoenvironments}, No.~2(20), 2019, pp.~198--203. (in Russian)}
 
 \bibitem{B04}
-Stommel H. The GULF STREAM. A Physical and Dynamical Description. University of California Press. 1965.
+Stommel, H., \emph{The Gulf Stream. A Physical and Dynamical Description}. University of California Press, 1965.
 
 \bibitem{B05}
-Стоммел Г. Гольфстрим. М.: ИЛ, 1965.
+Стоммел, Г., \emph{Гольфстрим}. Москва, ИЛ, 1965. \altbib{Stommel, G., \emph{Gol'fstrim = Gulf Stream}. Moscow, IL, 1965. (in Russian)}
 
 \bibitem{B06}
-Годунов С.К., Рябенький В.С. Разностные схемы. (Введение в теорию). М: Наука, 1977.
+Годунов, С.К., Рябенький, В.С., \emph{Разностные схемы. Введение в теорию}. Москва, Наука, 1977. \altbib{Godunov, S.K., Ryabenkiy, V.S., \emph{Raznostnye skhemy. Vvedenie v teoriyu = Difference Schemes. Introduction to Theory}. Moscow, Nauka, 1977. (in Russian)}
 
 \bibitem{B07}
-Кочергин В. С., Кочергин С. В., Скляр С. Н.~Вычисление компонент полного потока в моделях ветрового движения жидкости // Морской гидрофизический журнал. 2023. Т. 39, № 3. С. 299--313. EDN RUBXPZ. \doi{10.29039/0233-7584-2023-3-299-313}
+Кочергин, В.С., Кочергин, С.В., Скляр, С.Н., Вычисление компонент полного потока в моделях ветрового движения жидкости. \emph{Морской гидрофизический журнал}, 2023, т.~39, №~3, c.~299--313. \altbib{Kochergin, V.S., Kochergin, S.V., Sklyar, S.N., Calculation of the components of the total flow in models of wind-induced fluid motion. \emph{Morskoy gidrofizicheskiy zhurnal = Marine Hydrophysical Journal}, 2023, vol.~39, no.~3, pp.~299--313.} \edn{RUBXPZ}. \doi{10.29039/0233-7584-2023-3-299-313}
 	
 \bibitem{B08}
-Ekman. V.W. On the influence of the Earth rotation on ocean currents // Arkiv Mat., Astron., or Fysik. 1905. Bd. 2. № 11. P. 1--52.
+Ekman, V.W., On the influence of the Earth rotation on ocean currents. \emph{Arkiv Mat., Astron., or Fysik}, 1905, bd.~2, no.~11, pp.~1--52.
 
 \bibitem{B09}
-Stommel H. The westward intensification of wind-driven ocean currents // Trans. Amer. Geoph. Un., 1948, 29, p. 202-206.
-
-\bibitem{B10}
-Stommel H. The GULF STREAM. A Physical and Dynamical Description. University of California Press. 1965.
-
-\bibitem{B11}
-Стоммел Г. Гольфстрим. М.: ИЛ, 1965.
+Stommel, H., The westward intensification of wind-driven ocean currents. \emph{Trans. Amer. Geoph. Un.}, 1948, vol.~29, pp.~202--206.
 
 \bibitem{B12}
-Sklyar S.N. A projective version of the integral-interpolation method and it's application for the discretization of the singular perturbation problems // ``Advanced Mathematics: Computations and Applications''. Proc. Of the International Conf. AMCA-95. NCC Pablisher, Novosibirsk, 1995. P. 380-385.
+Sklyar, S.N., A projective version of the integral-interpolation method and it's application for the discretization of the singular perturbation problems. \emph{Proc. of the Int. Conf. ``Advanced Mathematics: Computations and Applications'' (AMCA-95)}. NCC Pablisher, Novosibirsk, 1995, pp.~380--385.
 
 \bibitem{B13}
-Роуч П. Вычислительная гидродинамика. М.: Мир, 1980.
+Роуч, П., \emph{Вычислительная гидродинамика}. Москва, Мир, 1980. \altbib{Roach, P., \emph{Vychislitel'naya gidrodinamika = Computational Fluid Dynamics}. Moscow, Mir, 1980. (in Russian)}
 
 \bibitem{B14}
-Самарский А. А. Теория разностных схем. М.: Наука, 1983.
+Самарский, А.А., \emph{Теория разностных схем}. Москва, Наука, 1983. \altbib{Samarskii, A.A., \emph{Theory of difference schemes}. Moscow, Nauka, 1983. (in Russian)}
 
 \bibitem{B15}
-Булеев Н.И., Тимухин Г.И. О составлении разностных уравнений гидродинамики вязкой неоднородной среды // Численные методы механики сплошной среды. 1972. Т. 3, №4. С. 19-26. 
+Булеев, Н.И., Тимухин, Г.И., О составлении разностных уравнений гидродинамики вязкой неоднородной среды. \emph{Численные методы механики сплошной среды}, 1972, т.~3, №~4, с.~19--26. \altbib{Buleev, N.I., Timukhin, G.I., On the formulation of difference equations for the hydrodynamics of a viscous inhomogeneous medium. \emph{Chislennye metody mekhaniki sploshnoy sredy = Numerical Methods of Continuum Mechanics}, 1972, vol.~3, no.~4, pp.~19--26. (in Russian)}
 
 \bibitem{B16}
-Булеев Н.И. Пространственная модель турбулентного обмена. М.: Наука, 1983. 
+Булеев, Н.И., \emph{Пространственная модель турбулентного обмена}. Москва, Наука, 1983. \altbib{Buleev, N.I., \emph{Prostranstvennaya model' turbulentnogo obmena = Spatial model of turbulent exchange}. Moscow, Nauka, 1983. (in Russian)}
 
 \bibitem{B17}
-Ильин А. М. Разностная схема для дифференциального уравнения с малым параметром при старшей производной // Математические заметки. 1969. Т.6. Вып. 2. С. 237--248. 
+Ильин, А.М., Разностная схема для дифференциального уравнения с малым параметром при старшей производной. \emph{Математические заметки}, 1969, т.~6, вып.~2, с.~237--248. \altbib{Ilyin, A.M., Difference scheme for a differential equation with a small parameter at the highest derivative. \emph{Matematicheskie zametki = Mathematical notes}, 1969, vol.~6, iss.~2, pp.~237--248. (in Russian)}
 
 \bibitem{B18}
-Дулан Э., Миллер Дж., Шилдерс У. Равномерные численные методы решения задач с пограничным слоем. М.: Мир, 1983.
+Дулан, Э., Миллер, Дж., Шилдерс, У., \emph{Равномерные численные методы решения задач с пограничным слоем}. Москва, Мир, 1983. \altbib{Doolan, E., Miller, J., Shielders, W., \emph{Ravnomernye chislennye metody resheniya zadach s pogranichnym sloem = Uniform Numerical Methods for Solving Boundary Layer Problems}. Moscow, Mir, 1983. (in Russian)}
 
 \bibitem{B19}
-Коллатц Л. Функциональный анализ и вычислительная математика. М.: Мир, 1969. 
+Коллатц, Л., \emph{Функциональный анализ и вычислительная математика}. Москва, Мир, 1969. \altbib{Collatz, L., \emph{Funktsional'nyy analiz i vychislitel'naya matematika = Functional Analysis and Computational Mathematics}. Moscow, Mir, 1969. (in Russian)}
 \end{thebibliography}
 \end{document}
-
-\section{References}
-\section{1. Marchuk G.I., Sarkisyan A.S. Matematicheskoe modelirovanie cir-kulyacii 
-okeana. -- M.: Nauka, 1988. -- 302P.}
-\section{2. Eremeev V.N., Kochergin V.P., Kochergin S.V., Sklyar S.N. 
-Matema-ticheskoe modelirovanie gidrodinamiki glubokovodnyh bassejnov, 
-Sevastopol', ``Ekosi-gidrofizika'',2002, s.238.}
-\section{3. Kochergin V.S., Kochergin S. V., Sklyar S.N. Analiticheskaya testovaya 
-zadacha vetrovyh techenij. // Processy v geosredah, №2(\ref{eq19}), 2019, 
-pp.198--203.}
-\section{4. Stommel H. The GULF STREAM. A Physical and Dynamical Descrip-tion. 
-University of California Press. 1965.}
-\section{5. Stommel G. Gol'fstrim. M.: IL, 1965,Ps.227.}
-\section{6. Godunov S.K., Ryaben'kij V.S. Raznostnye skhemy. (Vvedenie v teo-riyu), 
-M: Nauka, 1977, P.440.}
-\section{7. Kochergin, V.S., Kochergin, S.V. and Sklyar, S.N., 2023. Calculation of 
-the Total Flow Components in the Models of Wind Fluid Motion.~Physical 
-Oceanography, 30(\ref{eq3}), pp. 274-287. doi:10.29039/1573-160X-2023-3-274-287}
-\section{8. Ekman. V.W. On the influence of the Earth rotation on ocean currents // 
-Arkiv Mat., Astron., or Fysik. -- 1905. -- Bd. 2. -- № 11. -- P. 1-52.}
-\section{9. Stommel H. The westward intensification of wind-driven ocean currents - 
-Trans. Amer. Geoph. Un., 1948, 29, p. 202-206.}
-\section{10. Stommel H. The GULF STREAM. A Physical and Dynamical Description. 
-University of California Press. 1965.}
-11. Stommel G. Gol'fstrim. M.: IL, 1965, s.227.
-
-12. Sklyar S.N. A projective version of the integral-interpolation method 
-and it's application for the discretization of the singular perturbation 
-problems // ``Advanced Mathematics: Computations and Applications''. Proc. 
-Of the International Conf. AMCA-95. -NCC Pablisher, Novosi-birsk, 1995. P. 380-385.
-
-13.Roache, P.J.,Vychislitel'nayagidrodinamika // Computational fluid 
-dynamics. Moscow, Mir, 1980. (in Russian)
-
-14. Samarskiy, A.A.,Teoriyaraznostnyh skhem // Theory of difference schemes. 
-Moscow, Nauka, 1983. (in Russian)
-
-15. Buleev,N.I., Timukhin, G.I., On the compilation of difference equations 
-for the hydrodynamics of a viscousinhomogeneous medium.Chislennye metody 
-mekhaniki sploshnoy sredy // Numerical methods ofcontinuum mechanics, 1972, 
-vol. 3, no. 4, pp. 19--26. (in Russian)
-
-16. Buleev,N.I.,Prostranstvennaya model' turbulentnogo obmena // Spatial 
-model of turbulent exchange. Moscow,Nauka, 1983. (in Russian)
-
-17. Ilyin, A.M., Differencescheme for a differential equation with a small 
-parameter at the highest derivative. Matematicheskiezametki // Mathematical 
-notes, 1969, vol. 6, iss. 2, pp. 237--248. (in Russian)
-
-18. Doolan, E.P., Miller, J.J.H., Schilders, W.H.A.,Ravnomernyechislennye 
-metody resheniya zadach s pogranichnym sloem // Uniform numerical methods 
-for solvingproblems with a boundary layer. Moscow, Mir, 1983. (in Russian)
-
-19. Kochergin, V.S., Kochergin, S.V., Sklyar, S.N., Calculationof the total 
-flow components in the models of wind fluid motion // Physical Oceanography, 
-2023, vol. 30,iss. 3, pp. 274--287. DOI: 10.29039/1573-160X-2023-3-274-287
-
-

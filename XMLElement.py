@@ -57,7 +57,7 @@ class XMLElement:
             if hasattr(self, 'prolog'):  # Если пролог был добавлен
                 return self.prolog + '\n' + self._serialize_xml(indent, start_tag, children, end_tag)
             elif hasattr(self, 'root'):  # Если пролог был добавлен
-                return ""
+                return ''
             else:
                 return self._serialize_xml(indent, start_tag, children, end_tag)
         elif self.text or children.strip():  # Если есть текстовое содержимое или дети
