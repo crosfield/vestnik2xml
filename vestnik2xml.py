@@ -86,10 +86,14 @@ def get_clean_latex(latex_text):
     source_text = CustomLatexNodes2Text().latex_to_text(latex_text)
 
     # Заменяем < на &lt; и > на &gt;
+    source_text = source_text.replace('<<', '"')
+    source_text = source_text.replace('>>', '"')
+    source_text = source_text.replace('``', '"')
+    source_text = source_text.replace("''", '"')
+    source_text = source_text.replace('"=', '-')
     source_text = source_text.replace('&', '&amp;')
     source_text = source_text.replace('<', '&lt;')
     source_text = source_text.replace('>', '&gt;')
-    source_text = source_text.replace('"=', '-')
 
     # Заменяем #### и @@@@ на <sub></sub> и <sup></sup>
     while '####' in source_text:
@@ -98,9 +102,6 @@ def get_clean_latex(latex_text):
     while '@@@@' in source_text:
         source_text = source_text.replace('@@@@', '<sup>', 1)
         source_text = source_text.replace('@@@@', '</sup>', 1)
-
-    # source_text = source_text.replace('&', '&amp;')
-    source_text = source_text.replace('<<', '"').replace('>>', '"').replace('``', '"').replace("''", '"')
 
     result = source_text.replace('\u00A0', ' ')
     result = re.sub(r'(?<!\n)\n(?!\n)', ' ', result)  # Замена одиночных переводов строк на пробел
@@ -127,6 +128,7 @@ def get_clean_bibliography(latex_text):
     source_text = source_text.replace('<', '&lt;')
     source_text = source_text.replace('>', '&gt;')
     source_text = source_text.replace('"=', '-')
+    source_text = source_text.replace('\\,', '')
 
     # Заменяем #### и @@@@ на <sub></sub> и <sup></sup>
     while '####' in source_text:
@@ -649,6 +651,7 @@ def create_article_element(articles, metadata, filename):
         fundings = XMLElement("fundings")
         create_xml_element(fundings, "funding", {"lang": "RUS"}, metadata, 'fundingrus')
         create_xml_element(fundings, "funding", {"lang": "ENG"}, metadata, 'fundingeng')
+        article.add_child(fundings)
 
     files = XMLElement("files")
 
@@ -826,7 +829,7 @@ def create_doi_xml(file_list, filename, metadatas):
     with open(doi_filename, 'w') as outfile:
         outfile.write(root.to_xml())
 
-PROGRAM_VERSION = "0.4.0"
+PROGRAM_VERSION = "0.4.1"
 def main():
 
     # Создаем парсер аргументов
